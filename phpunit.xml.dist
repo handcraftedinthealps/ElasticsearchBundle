@@ -28,7 +28,7 @@
     </php>
 
     <filter>
-        <whitelist>
+        <whitelist addUncoveredFilesFromWhitelist="true">
             <directory>./</directory>
             <exclude>
                 <directory>./Tests</directory>
