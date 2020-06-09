@@ -61,7 +61,7 @@ class ElasticsearchProfilerTest extends AbstractElasticsearchTestCase
         $manager->commit();
 
         // Four queries executed while index was being created.
-        $this->greaterThanOrEqual(4, $this->getCollector()->getQueryCount());
+        $this->assertGreaterThanOrEqual(4, $this->getCollector()->getQueryCount());
     }
 
     /**
