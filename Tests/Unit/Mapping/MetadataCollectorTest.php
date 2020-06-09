@@ -15,8 +15,9 @@ use Doctrine\Common\Cache\CacheProvider;
 use ONGR\ElasticsearchBundle\Mapping\DocumentFinder;
 use ONGR\ElasticsearchBundle\Mapping\DocumentParser;
 use ONGR\ElasticsearchBundle\Mapping\MetadataCollector;
+use PHPUnit\Framework\TestCase;
 
-class MetadataCollectorTest extends \PHPUnit_Framework_TestCase
+class MetadataCollectorTest extends TestCase
 {
     /**
      * @var MetadataCollector

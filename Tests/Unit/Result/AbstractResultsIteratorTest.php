@@ -11,7 +11,9 @@
 
 namespace ONGR\ElasticsearchBundle\Tests\Unit\Result;
 
-class AbstractResultsIteratorTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class AbstractResultsIteratorTest extends TestCase
 {
     /**
      * Test if scroll is cleared on destructor.

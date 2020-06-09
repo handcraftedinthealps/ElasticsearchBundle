@@ -14,8 +14,9 @@ namespace ONGR\ElasticsearchBundle\Tests\Unit\Service;
 use ONGR\ElasticsearchBundle\Service\Manager;
 use ONGR\ElasticsearchDSL\Query\MatchAllQuery;
 use ONGR\ElasticsearchDSL\Search;
+use PHPUnit\Framework\TestCase;
 
-class ManagerTest extends \PHPUnit_Framework_TestCase
+class ManagerTest extends TestCase
 {
     /**
      * Data provider for testBulk()
@@ -237,7 +238,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
         $dispatcher = $this->getMockBuilder('Symfony\Component\EventDispatcher\EventDispatcher')
             ->disableOriginalConstructor()
             ->getMock();
-        
+
         $manager = new Manager('test', [], $esClient, ['index' => 'test'], $metadataCollector, $converter);
         $manager->setBulkParams(['refresh' => true]);
         $manager->setCommitMode('flush');

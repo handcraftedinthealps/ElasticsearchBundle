@@ -12,11 +12,12 @@
 namespace ONGR\ElasticsearchBundle\Tests\Unit\EventListener;
 
 use ONGR\ElasticsearchBundle\EventListener\TerminateListener;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests TerminateListener class
  */
-class TerminateListenerTest extends \PHPUnit_Framework_TestCase
+class TerminateListenerTest extends TestCase
 {
     /**
      * Tests kernel terminate event
