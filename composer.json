@@ -48,6 +48,10 @@
         "psr-4": { "ONGR\\ElasticsearchBundle\\": "" },
         "exclude-from-classmap": ["/Tests/", "/Test/"]
     },
+    "conflict": {
+        "handcraftedinthealps/elasticsearch-dsl": "6.0 - 6.1.1 || 7.0 - 7.1.1",
+        "ongr/elasticsearch-dsl": "6.0 - 6.1.1 || 7.0 - 7.1.1"
+    },
     "replace": {
         "ongr/elasticsearch-bundle": "self.version"
     },
