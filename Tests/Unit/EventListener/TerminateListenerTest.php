@@ -35,6 +35,11 @@ class TerminateListenerTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         $container->expects($this->any())
+            ->method('initialized')
+            ->with('es.manager.test_available')
+            ->willReturn(true);
+
+        $container->expects($this->any())
             ->method('get')
             ->with('es.manager.test_available')
             ->willReturn($manager);
