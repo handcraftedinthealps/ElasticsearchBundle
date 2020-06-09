@@ -55,11 +55,11 @@ class CacheClearCommandTest extends AbstractElasticsearchTestCase
 
     /**
      * Tests if exception is thown when no manager is found.
-     *
-     * @expectedException \RuntimeException
      */
     public function testExecuteException()
     {
+        $this->expectException(\RuntimeException::class);
+
         $app = new Application();
         $app->add($this->getCommand());
         $command = $app->find('ongr:es:cache:clear');

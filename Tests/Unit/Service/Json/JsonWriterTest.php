@@ -124,11 +124,11 @@ OUT;
 
     /**
      * Test for push() in case of too many documents passed.
-     *
-     * @expectedException \OverflowException
      */
     public function testPushException()
     {
+        $this->expectException(\OverflowException::class);
+
         $filename = vfsStream::url('tmp/test.json');
 
         $writer = new JsonWriter($filename, ['count' => 0]);

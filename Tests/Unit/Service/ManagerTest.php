@@ -283,12 +283,11 @@ class ManagerTest extends TestCase
         $manager->clearScroll('foo');
     }
 
-    /**
-     * @expectedException \LogicException
-     * @expectedExceptionMessage The commit method must be either refresh, flush or none.
-     */
     public function testSetCommitModeException()
     {
+        $this->expectException(\LogicException::class);
+        $this->expectExceptionMessage('The commit method must be either refresh, flush or none.');
+
         /** @var Manager $manager */
         $manager = $this->getMockBuilder('ONGR\ElasticsearchBundle\Service\Manager')
             ->disableOriginalConstructor()
@@ -398,11 +397,11 @@ class ManagerTest extends TestCase
 
     /**
      * Tests bulk error when invalid operation is provided
-     *
-     * @expectedException \InvalidArgumentException
      */
     public function testBulkException()
     {
+        $this->expectException(\InvalidArgumentException::class);
+
         $manager = $this->getPreparedConfiguration()[0];
         $manager->bulk('not_an_operation', 'product', []);
     }

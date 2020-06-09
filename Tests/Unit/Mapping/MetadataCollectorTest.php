@@ -61,12 +61,12 @@ class MetadataCollectorTest extends TestCase
 
     /**
      * Test bundle mapping parser when requesting non string bundle name.
-     *
-     * @expectedException \LogicException
-     * @expectedExceptionMessage getBundleMapping() in the Metadata collector expects a string argument only!
      */
     public function testGetBundleMappingWithNotStringName()
     {
+        $this->expectException(\LogicException::class);
+        $this->expectExceptionMessage('getBundleMapping() in the Metadata collector expects a string argument only!');
+
         $this->metadataCollector->getBundleMapping(1000);
     }
 
