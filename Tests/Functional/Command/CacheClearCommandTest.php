@@ -46,7 +46,7 @@ class CacheClearCommandTest extends AbstractElasticsearchTestCase
             ]
         );
 
-        $this->assertContains(
+        $this->assertStringContainsString(
             'Elasticsearch index cache has been cleared for manager named `default`',
             $tester->getDisplay()
         );
