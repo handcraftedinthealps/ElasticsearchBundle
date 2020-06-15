@@ -27,6 +27,8 @@ use Symfony\Component\VarDumper\Cloner\VarCloner;
  */
 class ElasticsearchProfiler extends DataCollector
 {
+    use CollectTrait;
+
     const UNDEFINED_ROUTE = 'undefined_route';
 
     /**
@@ -39,20 +41,7 @@ class ElasticsearchProfiler extends DataCollector
         $this->reset();
     }
 
-    /**
-     * Adds logger to look for collector handler.
-     *
-     * @param Logger $logger
-     */
-    public function addLogger(Logger $logger)
-    {
-        $this->loggers[] = $logger;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function collect(Request $request, Response $response, $exception = null)
+    public function doCollect(Request $request, Response $response, $exception = null)
     {
         /** @var Logger $logger */
         foreach ($this->loggers as $logger) {
@@ -63,6 +52,16 @@ class ElasticsearchProfiler extends DataCollector
                 }
             }
         }
+    }
+
+    /**
+     * Adds logger to look for collector handler.
+     *
+     * @param Logger $logger
+     */
+    public function addLogger(Logger $logger)
+    {
+        $this->loggers[] = $logger;
     }
 
     /**
@@ -151,7 +150,7 @@ class ElasticsearchProfiler extends DataCollector
      * Handles passed records.
      *
      * @param string $route
-     * @param array  $records
+     * @param array $records
      */
     private function handleRecords($route, $records)
     {
@@ -173,7 +172,7 @@ class ElasticsearchProfiler extends DataCollector
      * Adds query to collected data array.
      *
      * @param string $route
-     * @param array  $record
+     * @param array $record
      * @param string $queryBody
      */
     private function addQuery($route, $record, $queryBody)

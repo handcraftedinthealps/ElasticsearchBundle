@@ -16,7 +16,6 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Contracts\EventDispatcher\Event as ContractsEvent;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface as ContractsEventDispatcherInterface;
 
-// phpcs:disable
 // Clean up when sf 3.4 support is removed
 if (is_subclass_of(EventDispatcherInterface::class, ContractsEventDispatcherInterface::class)) {
     /**
@@ -33,4 +32,3 @@ if (is_subclass_of(EventDispatcherInterface::class, ContractsEventDispatcherInte
     {
     }
 }
-// phpcs:enable
