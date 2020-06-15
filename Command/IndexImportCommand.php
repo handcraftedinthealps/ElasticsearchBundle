@@ -90,5 +90,7 @@ class IndexImportCommand extends AbstractManagerAwareCommand
         );
 
         $io->success('Data import completed!');
+
+        return 0;
     }
 }

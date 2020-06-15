@@ -5,8 +5,9 @@ namespace ONGR\ElasticsearchBundle\Profiler;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Kernel;
 
-if (PHP_VERSION_ID < 72000) {
+if (Kernel::VERSION_ID <= 40410) {
     trait CollectTrait
     {
         public function collect(Request $request, Response $response, \Exception $exception = null)
@@ -17,7 +18,7 @@ if (PHP_VERSION_ID < 72000) {
 } else {
     trait CollectTrait
     {
-        public function collect(Request $request, Response $response, $exception = null)
+        public function collect(Request $request, Response $response, \Throwable $exception = null)
         {
             return $this->doCollect($request, $response, $exception);
         }

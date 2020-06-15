@@ -94,6 +94,8 @@ class DocumentGenerateCommand extends AbstractManagerAwareCommand
         if ($input->hasParameterOption(['--no-interaction', '-n'])) {
             throw $this->getException('No interaction mode is not allowed!');
         }
+
+        return 0;
     }
 
     /**

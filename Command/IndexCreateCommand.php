@@ -145,5 +145,7 @@ class IndexCreateCommand extends AbstractManagerAwareCommand
             $manager->getClient()->indices()->updateAliases($params);
             $io->text($message);
         }
+
+        return 0;
     }
 }

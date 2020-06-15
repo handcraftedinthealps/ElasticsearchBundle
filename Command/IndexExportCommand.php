@@ -89,5 +89,7 @@ class IndexExportCommand extends AbstractManagerAwareCommand
         );
 
         $io->success('Data export completed!');
+
+        return 0;
     }
 }

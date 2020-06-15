@@ -54,5 +54,7 @@ class CacheClearCommand extends AbstractManagerAwareCommand
                 $input->getOption('manager')
             )
         );
+
+        return 0;
     }
 }
