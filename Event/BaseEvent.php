@@ -9,6 +9,8 @@
  * file that was distributed with this source code.
  */
 
+// @codingStandardsIgnoreStart
+
 namespace ONGR\ElasticsearchBundle\Event;
 
 use Symfony\Component\EventDispatcher\Event;
@@ -32,3 +34,4 @@ if (is_subclass_of(EventDispatcherInterface::class, ContractsEventDispatcherInte
     {
     }
 }
+// @codingStandardsIgnoreEnd

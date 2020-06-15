@@ -1,5 +1,5 @@
 <?php
-
+// @codingStandardsIgnoreStart
 
 namespace ONGR\ElasticsearchBundle\Profiler;
 
@@ -23,3 +23,4 @@ if (PHP_VERSION_ID < 72000) {
         }
     }
 }
+// @codingStandardsIgnoreEnd
