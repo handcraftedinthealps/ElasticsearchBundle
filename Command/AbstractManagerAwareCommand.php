@@ -25,10 +25,10 @@ abstract class AbstractManagerAwareCommand extends Command
      */
     protected $managers;
 
-    public function __construct(\Traversable $managers, string $name = null)
+    public function __construct(array $managers, string $name = null)
     {
         parent::__construct($name);
-        $this->managers = iterator_to_array($managers);
+        $this->managers = $managers;
     }
 
     /**

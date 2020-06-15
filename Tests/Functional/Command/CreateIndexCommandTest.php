@@ -185,11 +185,9 @@ class CreateIndexCommandTest extends AbstractElasticsearchTestCase
      */
     private function getCommandTester()
     {
-        $iterator = new \ArrayIterator(['es.manager.default' => $this->getManager()]);
-
         $indexCreateCommand = new IndexCreateCommand(
-            $iterator,
-            $this->getContainer()->get('es.client.index_suffix_finder')
+            $this->getContainer()->get('es.client.index_suffix_finder'),
+            ['es.manager.default' => $this->getManager()]
         );
 
         $app = new Application();

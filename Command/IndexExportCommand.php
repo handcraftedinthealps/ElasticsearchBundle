@@ -30,7 +30,7 @@ class IndexExportCommand extends AbstractManagerAwareCommand
      */
     protected $exportService;
 
-    public function __construct(\Traversable $managers, ExportService $exportService)
+    public function __construct(ExportService $exportService, array $managers = [])
     {
         parent::__construct($managers, self::$defaultName);
 

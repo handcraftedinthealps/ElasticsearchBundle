@@ -30,7 +30,7 @@ class IndexImportCommand extends AbstractManagerAwareCommand
      */
     protected $importService;
 
-    public function __construct(\Traversable $managers, ImportService $importService)
+    public function __construct(ImportService $importService, array $managers = [])
     {
         parent::__construct($managers, self::$defaultName);
 

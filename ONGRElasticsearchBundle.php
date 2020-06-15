@@ -11,7 +11,7 @@
 
 namespace ONGR\ElasticsearchBundle;
 
-use ONGR\ElasticsearchBundle\DependencyInjection\Compiler\ManagerFactoryPass;
+use ONGR\ElasticsearchBundle\DependencyInjection\Compiler\ManagerPass;
 use ONGR\ElasticsearchBundle\DependencyInjection\Compiler\MappingPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
@@ -29,5 +29,6 @@ class ONGRElasticsearchBundle extends Bundle
         parent::build($container);
 
         $container->addCompilerPass(new MappingPass());
+        $container->addCompilerPass(new ManagerPass());
     }
 }

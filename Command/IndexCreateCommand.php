@@ -29,7 +29,7 @@ class IndexCreateCommand extends AbstractManagerAwareCommand
      */
     protected $indexSuffixFinder;
 
-    public function __construct(\Traversable $managers, IndexSuffixFinder $indexSuffixFinder)
+    public function __construct(IndexSuffixFinder $indexSuffixFinder, array $managers = [])
     {
         parent::__construct($managers, self::$defaultName);
 

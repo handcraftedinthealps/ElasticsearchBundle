@@ -22,7 +22,7 @@ class CacheClearCommand extends AbstractManagerAwareCommand
 {
     public static $defaultName = 'ongr:es:cache:clear';
 
-    public function __construct(\Traversable $managers)
+    public function __construct(array $managers = [])
     {
         parent::__construct($managers, self::$defaultName);
     }

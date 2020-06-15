@@ -45,11 +45,11 @@ class DocumentGenerateCommand extends AbstractManagerAwareCommand
     protected $bundles;
 
     public function __construct(
-        \Traversable $managers,
         array $bundles,
         GenerateService $generateService,
         MetadataCollector $metadataCollector,
-        CachedReader $cachedReader
+        CachedReader $cachedReader,
+        array $managers = []
     ) {
         parent::__construct($managers, self::$defaultName);
 

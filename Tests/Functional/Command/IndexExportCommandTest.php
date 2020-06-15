@@ -163,8 +163,8 @@ class IndexExportCommandTest extends AbstractElasticsearchTestCase
     private function getCommandTester()
     {
         $indexExportCommand = new IndexExportCommand(
-            new \ArrayIterator(['es.manager.default' => $this->getManager()]),
-            $this->getContainer()->get('es.export')
+            $this->getContainer()->get('es.export'),
+            ['es.manager.default' => $this->getManager()]
         );
 
         $app = new Application();
