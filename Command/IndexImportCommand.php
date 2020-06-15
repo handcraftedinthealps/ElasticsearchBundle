@@ -26,6 +26,18 @@ class IndexImportCommand extends AbstractManagerAwareCommand
     public static $defaultName = 'ongr:es:index:import';
 
     /**
+     * @var ImportService
+     */
+    protected $importService;
+
+    public function __construct(\Traversable $managers, ImportService $importService)
+    {
+        parent::__construct($managers, self::$defaultName);
+
+        $this->importService = $importService;
+    }
+
+    /**
      * {@inheritdoc}
      */
     protected function configure()
@@ -70,9 +82,7 @@ class IndexImportCommand extends AbstractManagerAwareCommand
         }
         $options['bulk-size'] = $input->getOption('bulk-size');
 
-        /** @var ImportService $importService */
-        $importService = $this->getContainer()->get('es.import');
-        $importService->importIndex(
+        $this->importService->importIndex(
             $manager,
             $input->getArgument('filename'),
             $output,

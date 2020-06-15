@@ -81,3 +81,52 @@ services:
         class: 'ONGR\ElasticsearchBundle\Service\GenerateService'
         public: true
         arguments: ["@es.generator.document", "@filesystem"]
+
+    es.command.cache_clear:
+        class: 'ONGR\ElasticsearchBundle\Command\CacheClearCommand'
+        arguments:
+            - !tagged { tag: 'es.manager', index_by: 'key' }
+        tags:
+            - console.command
+
+    es.command.document_generate:
+        class: 'ONGR\ElasticsearchBundle\Command\DocumentGenerateCommand'
+        arguments:
+            - !tagged { tag: 'es.manager', index_by: 'key' }
+            - '%kernel.bundles%'
+            - '@es.generate'
+            - '@es.metadata_collector'
+            - '@es.annotations.cached_reader'
+        tags:
+            - console.command
+
+    es.command.index_create:
+        class: 'ONGR\ElasticsearchBundle\Command\IndexCreateCommand'
+        arguments:
+            - !tagged { tag: 'es.manager', index_by: 'key' }
+            - '@es.client.index_suffix_finder'
+        tags:
+            - console.command
+
+    es.command.index_export:
+        class: 'ONGR\ElasticsearchBundle\Command\IndexExportCommand'
+        arguments:
+            - !tagged { tag: 'es.manager', index_by: 'key' }
+            - '@es.export'
+        tags:
+            - console.command
+
+    es.command.index_import:
+        class: 'ONGR\ElasticsearchBundle\Command\IndexImportCommand'
+        arguments:
+            - !tagged { tag: 'es.manager', index_by: 'key' }
+            - '@es.import'
+        tags:
+            - console.command
+
+    es.command.index_drop:
+        class: 'ONGR\ElasticsearchBundle\Command\IndexDropCommand'
+        arguments:
+            - !tagged { tag: 'es.manager', index_by: 'key' }
+        tags:
+            - console.command

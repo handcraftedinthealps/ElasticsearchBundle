@@ -25,8 +25,7 @@ class DropIndexCommandTest extends AbstractElasticsearchTestCase
     {
         $manager = $this->getManager();
 
-        $command = new IndexDropCommand();
-        $command->setContainer($this->getContainer());
+        $command = new IndexDropCommand(new \ArrayIterator(['es.manager.default' => $this->getManager()]));
 
         $app = new Application();
         $app->add($command);

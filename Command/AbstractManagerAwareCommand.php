@@ -12,14 +12,25 @@
 namespace ONGR\ElasticsearchBundle\Command;
 
 use ONGR\ElasticsearchBundle\Service\Manager;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputOption;
 
 /**
  * AbstractElasticsearchCommand class.
  */
-abstract class AbstractManagerAwareCommand extends ContainerAwareCommand
+abstract class AbstractManagerAwareCommand extends Command
 {
+    /**
+     * @var Manager[]
+     */
+    protected $managers;
+
+    public function __construct(\Traversable $managers, string $name = null)
+    {
+        parent::__construct($name);
+        $this->managers = iterator_to_array($managers);
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -47,15 +58,15 @@ abstract class AbstractManagerAwareCommand extends ContainerAwareCommand
     {
         $id = $this->getManagerId($name);
 
-        if ($this->getContainer()->has($id)) {
-            return $this->getContainer()->get($id);
+        if (array_key_exists($id, $this->managers)) {
+            return $this->managers[$id];
         }
 
         throw new \RuntimeException(
             sprintf(
                 'Manager named `%s` not found. Available: `%s`.',
                 $name,
-                implode('`, `', array_keys($this->getContainer()->getParameter('es.managers')))
+                implode('`, `', array_keys($this->managers))
             )
         );
     }

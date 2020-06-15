@@ -23,7 +23,6 @@ class IndexDropCommand extends AbstractManagerAwareCommand
 {
     public static $defaultName = 'ongr:es:index:drop';
 
-
     /**
      * {@inheritdoc}
      */

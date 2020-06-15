@@ -11,18 +11,53 @@
 
 namespace ONGR\ElasticsearchBundle\Command;
 
+use Doctrine\Common\Annotations\CachedReader;
 use ONGR\ElasticsearchBundle\Mapping\MetadataCollector;
+use ONGR\ElasticsearchBundle\Service\GenerateService;
 use Symfony\Component\Console\Helper\FormatterHelper;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Question\Question;
-use Symfony\Component\HttpKernel\Kernel;
 
 class DocumentGenerateCommand extends AbstractManagerAwareCommand
 {
     public static $defaultName = 'ongr:es:document:generate';
+
+    /**
+     * @var GenerateService
+     */
+    protected $generateService;
+    /**
+     * @var MetadataCollector
+     */
+    protected $metadataCollector;
+
+    /**
+     * @var CachedReader
+     */
+    protected $cachedReader;
+
+    /**
+     * @var array
+     */
+    protected $bundles;
+
+    public function __construct(
+        \Traversable $managers,
+        array $bundles,
+        GenerateService $generateService,
+        MetadataCollector $metadataCollector,
+        CachedReader $cachedReader
+    ) {
+        parent::__construct($managers, self::$defaultName);
+
+        $this->bundles = $bundles;
+        $this->generateService = $generateService;
+        $this->metadataCollector = $metadataCollector;
+        $this->cachedReader = $cachedReader;
+    }
 
     /**
      * @var QuestionHelper
@@ -83,9 +118,7 @@ class DocumentGenerateCommand extends AbstractManagerAwareCommand
             ]
         );
 
-        /** @var Kernel $kernel */
-        $kernel = $this->getContainer()->get('kernel');
-        $bundleNames = array_keys($kernel->getBundles());
+        $bundleNames = array_keys($this->bundles);
 
         while (true) {
             $document = $this->questionHelper->ask(
@@ -103,7 +136,7 @@ class DocumentGenerateCommand extends AbstractManagerAwareCommand
 
             try {
                 if (!file_exists(
-                    $kernel->getBundle($bundle)->getPath() . '/Document/' . str_replace('\\', '/', $document) . '.php'
+                    $this->bundles['bundle']->getPath() . '/Document/' . str_replace('\\', '/', $document) . '.php'
                 )) {
                     break;
                 }
@@ -269,8 +302,8 @@ class DocumentGenerateCommand extends AbstractManagerAwareCommand
             $output->writeln(['', $formatter->formatBlock('New Document Property', 'bg=blue;fg=white', true)]);
         }
 
-        $this->getContainer()->get('es.generate')->generate(
-            $this->getContainer()->get('kernel')->getBundle($bundle),
+        $this->generateService->generate(
+            $this->bundles[$bundle],
             $document,
             $annotation,
             $documentType,
@@ -358,7 +391,7 @@ class DocumentGenerateCommand extends AbstractManagerAwareCommand
                 "\n" . 'Property class',
                 null,
                 [$this, 'validatePropertyClass'],
-                array_merge($this->getDocumentClasses(), array_keys($this->getContainer()->get('kernel')->getBundles()))
+                array_merge($this->getDocumentClasses(), array_keys($this->bundles))
             )
         );
     }
@@ -370,12 +403,9 @@ class DocumentGenerateCommand extends AbstractManagerAwareCommand
      */
     private function getDocumentClasses()
     {
-        /** @var MetadataCollector $metadataCollector */
-        $metadataCollector = $this->getContainer()->get('es.metadata_collector');
         $classes = [];
-
-        foreach ($this->getContainer()->getParameter('es.managers') as $manager) {
-            $documents = $metadataCollector->getMappings($manager['mappings']);
+        foreach ($this->managers as $manager) {
+            $documents = $this->metadataCollector->getMappings($manager['mappings']);
             foreach ($documents as $document) {
                 $classes[] = sprintf('%s:%s', $document['bundle'], $document['class']);
             }
@@ -419,7 +449,7 @@ class DocumentGenerateCommand extends AbstractManagerAwareCommand
         list($bundle, $document) = $this->parseShortcutNotation($input);
 
         try {
-            $bundlePath = $this->getContainer()->get('kernel')->getBundle($bundle)->getPath();
+            $bundlePath = $this->bundles[$bundle]->getPath();
         } catch (\Exception $e) {
             throw $this->getException('Bundle "%s" does not exist.', [$bundle]);
         }
@@ -622,9 +652,7 @@ class DocumentGenerateCommand extends AbstractManagerAwareCommand
     {
         $reflection = new \ReflectionClass('ONGR\ElasticsearchBundle\Annotation\Property');
 
-        return $this
-            ->getContainer()
-            ->get('es.annotations.cached_reader')
+        return $this->cachedReader
             ->getPropertyAnnotation($reflection->getProperty('type'), 'Doctrine\Common\Annotations\Annotation\Enum')
             ->value;
     }

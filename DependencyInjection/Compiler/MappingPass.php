@@ -52,8 +52,9 @@ class MappingPass implements CompilerPassInterface
                     'createManager',
                 ]
             );
-
-            $container->setDefinition(sprintf('es.manager.%s', $managerName), $managerDefinition);
+            $managerKey = sprintf('es.manager.%s', $managerName);
+            $managerDefinition->addTag('es.manager', ['key' => $managerKey]);
+            $container->setDefinition($managerKey, $managerDefinition);
 
             // Make es.manager.default as es.manager service.
             if ($managerName === 'default') {
@@ -61,8 +62,7 @@ class MappingPass implements CompilerPassInterface
 
                 if (Kernel::MAJOR_VERSION >= 4) {
                     $container->getAlias('es.manager')
-                        ->setPublic(true)
-                    ;
+                        ->setPublic(true);
                 }
             }
 

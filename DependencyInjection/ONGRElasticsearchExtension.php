@@ -37,21 +37,15 @@ class ONGRElasticsearchExtension extends Extension
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('services.yml');
 
-        if (Kernel::MAJOR_VERSION >= 4) {
-            $loader->load('services4.yaml');
-        }
-
         $config['cache'] = isset($config['cache']) ?
             $config['cache'] : !$container->getParameter('kernel.debug');
         $config['profiler'] = isset($config['profiler']) ?
             $config['profiler'] : $container->getParameter('kernel.debug');
 
-        
         $managers = $config['managers'];
         foreach ($managers as &$manager) {
             $manager['mappings'] = array_unique($manager['mappings']);
         }
-        
         $container->setParameter('es.cache', $config['cache']);
         $container->setParameter('es.analysis', $config['analysis']);
         $container->setParameter('es.managers', $managers);

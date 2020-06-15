@@ -79,9 +79,6 @@ class CacheClearCommandTest extends AbstractElasticsearchTestCase
      */
     private function getCommand()
     {
-        $command = new CacheClearCommand();
-        $command->setContainer($this->getContainer());
-
-        return $command;
+        return new CacheClearCommand(new \ArrayIterator(['es.manager.default' => $this->getManager()]));
     }
 }

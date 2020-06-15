@@ -26,6 +26,18 @@ class IndexExportCommand extends AbstractManagerAwareCommand
     public static $defaultName = 'ongr:es:index:export';
 
     /**
+     * @var ExportService
+     */
+    protected $exportService;
+
+    public function __construct(\Traversable $managers, ExportService $exportService)
+    {
+        parent::__construct($managers, self::$defaultName);
+
+        $this->exportService = $exportService;
+    }
+
+    /**
      * {@inheritdoc}
      */
     protected function configure()
@@ -67,9 +79,7 @@ class IndexExportCommand extends AbstractManagerAwareCommand
         $io = new SymfonyStyle($input, $output);
         $manager = $this->getManager($input->getOption('manager'));
 
-        /** @var ExportService $exportService */
-        $exportService = $this->getContainer()->get('es.export');
-        $exportService->exportIndex(
+        $this->exportService->exportIndex(
             $manager,
             $input->getArgument('filename'),
             $input->getOption('types'),
