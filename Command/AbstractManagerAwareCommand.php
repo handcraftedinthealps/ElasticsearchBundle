@@ -25,7 +25,7 @@ abstract class AbstractManagerAwareCommand extends Command
      */
     protected $managers;
 
-    public function __construct(array $managers, string $name = null)
+    public function __construct(array $managers, $name = null)
     {
         parent::__construct($name);
         $this->managers = $managers;
