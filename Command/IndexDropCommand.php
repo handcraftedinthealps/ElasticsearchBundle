@@ -60,8 +60,6 @@ class IndexDropCommand extends AbstractManagerAwareCommand
             $io->error('ATTENTION:');
             $io->text('This action should not be used in the production environment.');
             $io->error('Option --force is mandatory to drop type(s).');
-
-            return 1;
         }
 
         return 0;

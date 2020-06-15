@@ -7,7 +7,11 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Kernel;
 
+// Clean up when sf 3.4 support is removed
 if (Kernel::VERSION_ID <= 40410) {
+    /**
+     * @internal
+     */
     trait CollectTrait
     {
         public function collect(Request $request, Response $response, \Exception $exception = null)
@@ -16,6 +20,9 @@ if (Kernel::VERSION_ID <= 40410) {
         }
     }
 } else {
+    /**
+     * @internal
+     */
     trait CollectTrait
     {
         public function collect(Request $request, Response $response, \Throwable $exception = null)
