@@ -14,24 +14,23 @@ env:
       - SYMFONY="~3.0"
 matrix:
   include:
-    - php: 7.0
+    - php: 7.1
       env: SYMFONY="2.7.*"
+
 install:
+  - composer self-update --snapshot # remove when composer 2 is released
   - composer require --no-update symfony/symfony:${SYMFONY}
   - wget https://download.elastic.co/elasticsearch/elasticsearch/elasticsearch-${ES_VERSION}.tar.gz
   - tar -xzf elasticsearch-${ES_VERSION}.tar.gz
   - ./elasticsearch-${ES_VERSION}/bin/elasticsearch > /dev/null 2>&1 &
+
 before_script:
-  - composer config -g github-oauth.github.com $GITHUB_COMPOSER_AUTH
+  - if [[ $TRAVIS_SECURE_ENV_VARS = "true" ]]; then composer config -g github-oauth.github.com $GITHUB_COMPOSER_AUTH; fi
   - composer install --no-interaction --prefer-dist
+
 script:
   - vendor/bin/phpunit --coverage-clover=coveralls.clover
   - vendor/bin/phpcs -p --standard=PSR2 --ignore=vendor/,Tests/app/ ./
+
 after_script:
   - travis_retry php vendor/bin/coveralls
-notifications:
-  webhooks:
-    urls:
-      - https://webhooks.gitter.im/e/81e47479feba5ba8dc47
-    on_success: change
-    on_start: never
