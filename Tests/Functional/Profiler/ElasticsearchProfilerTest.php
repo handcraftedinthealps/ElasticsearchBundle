@@ -18,6 +18,7 @@ use ONGR\ElasticsearchDSL\Query\TermLevel\TermQuery;
 use ONGR\ElasticsearchBundle\Test\AbstractElasticsearchTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\VarDumper\Cloner\Data;
 
 class ElasticsearchProfilerTest extends AbstractElasticsearchTestCase
@@ -85,7 +86,9 @@ class ElasticsearchProfilerTest extends AbstractElasticsearchTestCase
 
         // guard
         $queries = $this->getCollector()->getQueries();
-        $this->assertInstanceOf(Data::class, $queries);
+        if (Kernel::VERSION_ID >= 30000) {
+            $this->assertInstanceOf(Data::class, $queries);
+        }
         $this->assertCount(1, $queries);
 
         $queries = $this->readAttribute($this->getCollector(), 'data')['queries'];
@@ -120,7 +123,9 @@ class ElasticsearchProfilerTest extends AbstractElasticsearchTestCase
 
         // guard
         $queries = $this->getCollector()->getQueries();
-        $this->assertInstanceOf(Data::class, $queries);
+        if (Kernel::VERSION_ID >= 30000) {
+            $this->assertInstanceOf(Data::class, $queries);
+        }
         $this->assertCount(1, $queries);
 
         $queries = $this->readAttribute($this->getCollector(), 'data')['queries'];
@@ -185,7 +190,9 @@ class ElasticsearchProfilerTest extends AbstractElasticsearchTestCase
 
         // guard
         $queries = $this->getCollector()->getQueries();
-        $this->assertInstanceOf(Data::class, $queries);
+        if (Kernel::VERSION_ID >= 30000) {
+            $this->assertInstanceOf(Data::class, $queries);
+        }
         $this->assertCount(1, $queries);
 
         $queries = $this->readAttribute($this->getCollector(), 'data')['queries'];

@@ -17,6 +17,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\DataCollector\DataCollector;
 use Symfony\Component\HttpKernel\DataCollector\DataCollectorInterface;
+use Symfony\Component\HttpKernel\DataCollector\Util\ValueExporter;
+use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\VarDumper\Caster\CutStub;
 use Symfony\Component\VarDumper\Cloner\Data;
 use Symfony\Component\VarDumper\Cloner\Stub;
@@ -111,6 +113,18 @@ class ElasticsearchProfiler extends DataCollector
     public function getQueries()
     {
         return $this->cloneVar($this->data['queries']);
+    }
+
+    /**
+     * Backward compatibility Layer can be removed when Symfony 2.8 is dropped.
+     */
+    protected function cloneVar($var)
+    {
+        if (class_exists(Kernel::class) && Kernel::VERSION_ID < 30000) {
+            return $var;
+        }
+
+        return parent::cloneVar($var);
     }
 
     /**

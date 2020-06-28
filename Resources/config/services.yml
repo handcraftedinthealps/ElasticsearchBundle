@@ -85,7 +85,7 @@ services:
     es.command.cache_clear:
         class: 'ONGR\ElasticsearchBundle\Command\CacheClearCommand'
         tags:
-            - console.command
+            - { name: 'console.command', command: 'ongr:es:cache:clear' }
 
     es.command.document_generate:
         class: 'ONGR\ElasticsearchBundle\Command\DocumentGenerateCommand'
@@ -95,30 +95,30 @@ services:
             - '@es.metadata_collector'
             - '@es.annotations.cached_reader'
         tags:
-            - console.command
+            - { name: 'console.command', command: 'ongr:es:document:generate' }
 
     es.command.index_create:
         class: 'ONGR\ElasticsearchBundle\Command\IndexCreateCommand'
         arguments:
             - '@es.client.index_suffix_finder'
         tags:
-            - console.command
+            - { name: 'console.command', command: 'ongr:es:index:create' }
 
     es.command.index_export:
         class: 'ONGR\ElasticsearchBundle\Command\IndexExportCommand'
         arguments:
             - '@es.export'
         tags:
-            - console.command
+            - { name: 'console.command', command: 'ongr:es:index:export' }
 
     es.command.index_import:
         class: 'ONGR\ElasticsearchBundle\Command\IndexImportCommand'
         arguments:
             - '@es.import'
         tags:
-            - console.command
+            - { name: 'console.command', command: 'ongr:es:index:import' }
 
     es.command.index_drop:
         class: 'ONGR\ElasticsearchBundle\Command\IndexDropCommand'
         tags:
-            - console.command
+            - { name: 'console.command', command: 'ongr:es:index:drop' }

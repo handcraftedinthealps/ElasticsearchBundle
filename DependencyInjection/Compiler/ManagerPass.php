@@ -17,11 +17,27 @@ class ManagerPass implements CompilerPassInterface
             $managers[$key] = $container->getDefinition($key);
         }
 
-        $container->getDefinition('es.command.cache_clear')->setArgument('$managers', $managers);
-        $container->getDefinition('es.command.document_generate')->setArgument('$managers', $managers);
-        $container->getDefinition('es.command.index_create')->setArgument('$managers', $managers);
-        $container->getDefinition('es.command.index_export')->setArgument('$managers', $managers);
-        $container->getDefinition('es.command.index_import')->setArgument('$managers', $managers);
-        $container->getDefinition('es.command.index_drop')->setArgument('$managers', $managers);
+        $this->addManagers($container, 'es.command.cache_clear', $managers);
+        $this->addManagers($container, 'es.command.document_generate', $managers);
+        $this->addManagers($container, 'es.command.index_create', $managers);
+        $this->addManagers($container, 'es.command.index_export', $managers);
+        $this->addManagers($container, 'es.command.index_import', $managers);
+        $this->addManagers($container, 'es.command.index_drop', $managers);
+    }
+
+    private function addManagers(ContainerBuilder $container, $definitionName, array $managers)
+    {
+        $definition = $container->getDefinition($definitionName);
+
+        if (method_exists($definition, 'setArgument')) {
+            $definition->setArgument('$managers', $managers);
+
+            return;
+        }
+
+        $arguments = $definition->getArguments();
+        $arguments[] = $managers;
+
+        $definition->setArguments($arguments);
     }
 }
