@@ -25,7 +25,7 @@
         "doctrine/inflector": "~1.0",
         "doctrine/cache": "~1.4",
         "doctrine/collections": "~1.4",
-        "monolog/monolog": "~1.10",
+        "monolog/monolog": "^1.10 || ^2.0",
         "handcraftedinthealps/elasticsearch-dsl": "^5.0.7.1|^6.2.0.1|^7.2.0.1"
     },
     "require-dev": {

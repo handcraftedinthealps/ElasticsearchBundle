@@ -18,6 +18,8 @@ use Monolog\Handler\AbstractProcessingHandler;
  */
 class CollectionHandler extends AbstractProcessingHandler
 {
+    use BackwardCompatibilityWriteTrait;
+
     /**
      * @var array
      */
@@ -26,7 +28,7 @@ class CollectionHandler extends AbstractProcessingHandler
     /**
      * {@inheritdoc}
      */
-    protected function write(array $record)
+    protected function doWrite(array $record)
     {
         $this->records[] = $record;
     }
