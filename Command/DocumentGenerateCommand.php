@@ -12,6 +12,7 @@
 namespace ONGR\ElasticsearchBundle\Command;
 
 use Doctrine\Common\Annotations\CachedReader;
+use Doctrine\Common\Annotations\Reader;
 use ONGR\ElasticsearchBundle\Mapping\MetadataCollector;
 use ONGR\ElasticsearchBundle\Service\GenerateService;
 use Symfony\Component\Console\Helper\FormatterHelper;
@@ -35,9 +36,9 @@ class DocumentGenerateCommand extends AbstractManagerAwareCommand
     protected $metadataCollector;
 
     /**
-     * @var CachedReader
+     * @var Reader
      */
-    protected $cachedReader;
+    protected $reader;
 
     /**
      * @var array
@@ -48,7 +49,7 @@ class DocumentGenerateCommand extends AbstractManagerAwareCommand
         array $bundles,
         GenerateService $generateService,
         MetadataCollector $metadataCollector,
-        CachedReader $cachedReader,
+        Reader $reader,
         array $managers = []
     ) {
         parent::__construct($managers, self::$defaultName);
@@ -56,7 +57,7 @@ class DocumentGenerateCommand extends AbstractManagerAwareCommand
         $this->bundles = $bundles;
         $this->generateService = $generateService;
         $this->metadataCollector = $metadataCollector;
-        $this->cachedReader = $cachedReader;
+        $this->reader = $reader;
     }
 
     /**
@@ -654,7 +655,7 @@ class DocumentGenerateCommand extends AbstractManagerAwareCommand
     {
         $reflection = new \ReflectionClass('ONGR\ElasticsearchBundle\Annotation\Property');
 
-        return $this->cachedReader
+        return $this->reader
             ->getPropertyAnnotation($reflection->getProperty('type'), 'Doctrine\Common\Annotations\Annotation\Enum')
             ->value;
     }
