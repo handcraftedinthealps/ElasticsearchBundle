@@ -12,6 +12,7 @@
 namespace ONGR\ElasticsearchBundle\Tests\Unit\DependencyInjection\Compiler;
 
 use ONGR\ElasticsearchBundle\DependencyInjection\Compiler\MappingPass;
+use ONGR\ElasticsearchBundle\DependencyInjection\Compiler\RepositoryPass;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\Alias;
 
@@ -69,7 +70,7 @@ class MappingPassTest extends TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $containerMock->expects($this->exactly(2))->method('getParameter')->with($this->anything())
+        $containerMock->expects($this->exactly(3))->method('getParameter')->with($this->anything())
             ->will(
                 $this->returnCallback(
                     function ($parameter) use ($managers) {
@@ -96,6 +97,7 @@ class MappingPassTest extends TestCase
                     }
                 )
             );
+
         $containerMock
             ->expects($this->exactly(2))
             ->method('setDefinition')
@@ -132,7 +134,11 @@ class MappingPassTest extends TestCase
      */
     public function testProcessWithSeveralManagers(array $managers)
     {
+        $container = $this->getContainerMock($managers);
+
         $compilerPass = new MappingPass();
-        $compilerPass->process($this->getContainerMock($managers));
+        $compilerPass->process($container);
+        $compilerPass = new RepositoryPass();
+        $compilerPass->process($container);
     }
 }

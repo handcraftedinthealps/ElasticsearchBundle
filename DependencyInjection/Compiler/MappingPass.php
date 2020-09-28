@@ -30,8 +30,6 @@ class MappingPass implements CompilerPassInterface
         $analysis = $container->getParameter('es.analysis');
         $managers = $container->getParameter('es.managers');
 
-        $collector = $container->get('es.metadata_collector');
-
         foreach ($managers as $managerName => $manager) {
             $connection = $manager['index'];
             $managerName = strtolower($managerName);
@@ -64,31 +62,6 @@ class MappingPass implements CompilerPassInterface
                     $container->getAlias('es.manager')
                         ->setPublic(true);
                 }
-            }
-
-            $mappings = $collector->getMappings($manager['mappings']);
-
-            // Building repository services.
-            foreach ($mappings as $repositoryType => $repositoryDetails) {
-                $repositoryDefinition = new Definition(
-                    'ONGR\ElasticsearchBundle\Service\Repository',
-                    [$repositoryDetails['namespace']]
-                );
-                $repositoryDefinition->setPublic(true);
-
-                if (isset($repositoryDetails['directory_name']) && $managerName == 'default') {
-                    $container->get('es.document_finder')->setDocumentDir($repositoryDetails['directory_name']);
-                }
-
-                $repositoryDefinition->setFactory(
-                    [
-                        new Reference(sprintf('es.manager.%s', $managerName)),
-                        'getRepository',
-                    ]
-                );
-
-                $repositoryId = sprintf('es.manager.%s.%s', $managerName, $repositoryType);
-                $container->setDefinition($repositoryId, $repositoryDefinition);
             }
         }
     }
