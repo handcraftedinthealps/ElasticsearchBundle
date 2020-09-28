@@ -13,6 +13,7 @@ namespace ONGR\ElasticsearchBundle;
 
 use ONGR\ElasticsearchBundle\DependencyInjection\Compiler\ManagerPass;
 use ONGR\ElasticsearchBundle\DependencyInjection\Compiler\MappingPass;
+use Symfony\Component\DependencyInjection\Compiler\PassConfig;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
@@ -28,7 +29,8 @@ class ONGRElasticsearchBundle extends Bundle
     {
         parent::build($container);
 
-        $container->addCompilerPass(new MappingPass());
-        $container->addCompilerPass(new ManagerPass());
+        // MappingPass need to be behind the Symfony `DecoratorServicePass` to allow decorating the annotation reader
+        $container->addCompilerPass(new MappingPass(), PassConfig::TYPE_OPTIMIZE, -10);
+        $container->addCompilerPass(new ManagerPass(), PassConfig::TYPE_OPTIMIZE, -11);
     }
 }
