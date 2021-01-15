@@ -1,3 +1,6 @@
+parameters:
+    elasticsearch_host: '127.0.0.1:9200'
+
 # Framework Configuration
 framework:
     secret: "SUPER-TOP-SECRET"
@@ -21,7 +24,7 @@ ongr_elasticsearch:
         custom_dir:
             index:
                 hosts:
-                    - 127.0.0.1:9200
+                    - '%elasticsearch_host%'
                 index_name: ongr-custom-document-dir-test
             mappings:
                 TestBundle:
@@ -29,7 +32,7 @@ ongr_elasticsearch:
         default:
             index:
                 hosts:
-                    - 127.0.0.1:9200
+                    - '%elasticsearch_host%'
                 index_name: ongr-esb-test
                 settings:
                     refresh_interval: -1

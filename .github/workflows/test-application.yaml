@@ -21,35 +21,35 @@ jobs:
                       symfony-version: '^2.8'
                       elasticsearch-package-constraint: '^5.0' 
                       env:
-                          ELASTICSEARCH_HOST: '127.0.0.1:9205'
+                          SYMFONY__ELASTICSEARCH_HOST: '127.0.0.1:9205'
 
                     - php-version: '7.0'
                       lint: false
                       symfony-version: '^3.4'
                       elasticsearch-package-constraint: '^5.0' 
                       env:
-                          ELASTICSEARCH_HOST: '127.0.0.1:9205'
+                          SYMFONY__ELASTICSEARCH_HOST: '127.0.0.1:9205'
 
                     - php-version: '7.2'
                       lint: false
                       symfony-version: '^3.4'
                       elasticsearch-package-constraint: '^5.0' 
                       env:
-                          ELASTICSEARCH_HOST: '127.0.0.1:9205'
+                          SYMFONY__ELASTICSEARCH_HOST: '127.0.0.1:9205'
 
                     - php-version: '7.3'
                       lint: false
                       symfony-version: '^4.4'
                       elasticsearch-package-constraint: '^5.0' 
                       env:
-                          ELASTICSEARCH_HOST: '127.0.0.1:9205'
+                          SYMFONY__ELASTICSEARCH_HOST: '127.0.0.1:9205'
 
                     - php-version: '7.4'
                       lint: true
                       symfony-version: '^5.0'
                       elasticsearch-package-constraint: '^5.0' 
                       env:
-                          ELASTICSEARCH_HOST: '127.0.0.1:9205'
+                          SYMFONY__ELASTICSEARCH_HOST: '127.0.0.1:9205'
 
         services:
             elasticsearch5:
