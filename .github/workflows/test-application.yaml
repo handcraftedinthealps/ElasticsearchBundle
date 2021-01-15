@@ -19,61 +19,33 @@ jobs:
                     - php-version: '5.6'
                       lint: false
                       symfony-version: '^2.8'
-                      elasticsearch-package-constraint: '^5.0' 
-                      env:
-                          SYMFONY__ELASTICSEARCH_HOST: '127.0.0.1:9205'
+                      elasticsearch-package-constraint: '^5.0'
 
                     - php-version: '7.0'
                       lint: false
                       symfony-version: '^3.4'
-                      elasticsearch-package-constraint: '^5.0' 
-                      env:
-                          SYMFONY__ELASTICSEARCH_HOST: '127.0.0.1:9205'
+                      elasticsearch-package-constraint: '^5.0'
 
                     - php-version: '7.2'
                       lint: false
                       symfony-version: '^3.4'
-                      elasticsearch-package-constraint: '^5.0' 
-                      env:
-                          SYMFONY__ELASTICSEARCH_HOST: '127.0.0.1:9205'
+                      elasticsearch-package-constraint: '^5.0'
 
                     - php-version: '7.3'
                       lint: false
                       symfony-version: '^4.4'
-                      elasticsearch-package-constraint: '^5.0' 
-                      env:
-                          SYMFONY__ELASTICSEARCH_HOST: '127.0.0.1:9205'
+                      elasticsearch-package-constraint: '^5.0'
 
                     - php-version: '7.4'
                       lint: true
                       symfony-version: '^5.0'
-                      elasticsearch-package-constraint: '^5.0' 
-                      env:
-                          SYMFONY__ELASTICSEARCH_HOST: '127.0.0.1:9205'
+                      elasticsearch-package-constraint: '^5.0'
 
         services:
             elasticsearch5:
                 image: elasticsearch:5.6.14
                 ports:
-                    - 9205:9200
-                env:
-                    discovery.type: 'single-node'
-                    xpack.security.enabled: 'false'
-                options: --health-cmd="curl http://localhost:9200/_cluster/health" --health-interval=10s --health-timeout=5s --health-retries=5
-
-            elasticsearch6:
-                image: elasticsearch:6.8.4
-                ports:
-                    - 9206:9200
-                env:
-                    discovery.type: 'single-node'
-                    xpack.security.enabled: 'false'
-                options: --health-cmd="curl http://localhost:9200/_cluster/health" --health-interval=10s --health-timeout=5s --health-retries=5
-
-            elasticsearch7:
-                image: elasticsearch:7.9.3
-                ports:
-                    - 9202:9200
+                    - 9200:9200
                 env:
                     discovery.type: 'single-node'
                     xpack.security.enabled: 'false'
