@@ -83,12 +83,7 @@ jobs:
 
             - name: Fix code style
               if: ${{ matrix.lint }}
-              run: vendor/bin/phpcs -p --standard=PSR2 --ignore=vendor/,Tests/app/ ./
+              run: vendor/bin/phpcs -p --standard=PSR2 --ignore=vendor/,Tests/app/,Profiler/Handler/BackwardCompatibilityWriteTrait.php ./
 
             - name: Run tests
-              run: vendor/bin/simple-phpunit --coverage-clover=coverage.clover
-
-            - name: Upload coverage results to Coveralls
-              run: vendor/bin/php-coveralls -v
-              env:
-                  COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              run: vendor/bin/simple-phpunit
