@@ -1,3 +1,2 @@
-coverage_clover: coveralls.clover
-service_name: travis-ci
+coverage_clover: coverage.clover
 json_path: ./coveralls.json
