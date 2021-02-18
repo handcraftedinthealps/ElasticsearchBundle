@@ -1,4 +1,3 @@
-# Framework Configuration
 framework:
     secret: "SUPER-TOP-SECRET"
     test: ~

@@ -30,7 +30,7 @@
     },
     "require-dev": {
         "mikey179/vfsstream": "~1.4",
-        "squizlabs/php_codesniffer": "~2.0",
+        "squizlabs/php_codesniffer": "^2.0|^3.0",
         "symfony/browser-kit" : "^2.8|^3.4|^4|^5",
         "symfony/expression-language" : "^2.8|^3.4|^4|^5",
         "symfony/twig-bundle": "^2.8|^3.4|^4|^5",

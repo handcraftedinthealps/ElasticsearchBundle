@@ -20,40 +20,47 @@ jobs:
                       lint: false
                       symfony-version: '^2.8'
                       elasticsearch-package-constraint: '^5.0'
+                      elasticsearch-version: '5.6.14'
 
                     - php-version: '7.0'
                       lint: false
                       symfony-version: '^3.4'
                       elasticsearch-package-constraint: '^5.0'
+                      elasticsearch-version: '5.6.14'
 
                     - php-version: '7.2'
                       lint: false
                       symfony-version: '^3.4'
                       elasticsearch-package-constraint: '^5.0'
+                      elasticsearch-version: '5.6.14'
 
                     - php-version: '7.3'
                       lint: false
                       symfony-version: '^4.4'
                       elasticsearch-package-constraint: '^5.0'
+                      elasticsearch-version: '5.6.14'
 
                     - php-version: '7.4'
                       lint: true
                       symfony-version: '^5.0'
                       elasticsearch-package-constraint: '^5.0'
+                      elasticsearch-version: '5.6.14'
 
                     - php-version: '8.0'
                       lint: true
                       symfony-version: '^5.0'
-                      elasticsearch-package-constraint: '^5.0'
+                      elasticsearch-package-constraint: '^7.0'
+                      elasticsearch-version: '7.11.1'
 
         services:
-            elasticsearch5:
-                image: elasticsearch:5.6.14
+            elasticsearch:
+                image: docker.elastic.co/elasticsearch/elasticsearch:${{ matrix.elasticsearch-version }}
                 ports:
                     - 9200:9200
                 env:
                     discovery.type: 'single-node'
                     xpack.security.enabled: 'false'
+                    ES_JAVA_OPTS: '-Xms512m -Xmx512m'
                 options: --health-cmd="curl http://localhost:9200/_cluster/health" --health-interval=10s --health-timeout=5s --health-retries=5
 
         steps:
