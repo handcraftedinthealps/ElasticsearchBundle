@@ -11,7 +11,8 @@
 
 namespace ONGR\ElasticsearchBundle\Generator;
 
-use Doctrine\Common\Inflector\Inflector;
+use Doctrine\Inflector\Inflector;
+use Doctrine\Inflector\InflectorFactory;
 
 /**
  * Document Generator
@@ -80,6 +81,11 @@ public function __construct()
 {
 <fields>
 }';
+
+    /**
+     * @var Inflector
+     */
+    private $inflector;
 
     /**
      * @param array $metadata
@@ -255,7 +261,7 @@ public function __construct()
             $column[] = 'options={' . $metadata['property_options'] . '}';
         }
 
-        $lines[] = $this->spaces . ' * @ES\\' . Inflector::classify($metadata['annotation'])
+        $lines[] = $this->spaces . ' * @ES\\' . $this->getInflector()->classify($metadata['annotation'])
             . '(' . implode(', ', $column) . ')';
 
         $lines[] = $this->spaces . ' */';
@@ -276,7 +282,7 @@ public function __construct()
             ['<className>', '<annotation>', '<options>'],
             [
                 $this->getClassName($metadata),
-                Inflector::classify($metadata['annotation']),
+                $this->getInflector()->classify($metadata['annotation']),
                 $this->getAnnotationOptions($metadata),
             ],
             '/**
@@ -331,7 +337,7 @@ public function __construct()
             return '';
         }
 
-        if ($metadata['type'] === Inflector::tableize($this->getClassName($metadata))) {
+        if ($metadata['type'] === $this->getInflector()->tableize($this->getClassName($metadata))) {
             return '';
         }
 
@@ -370,5 +376,26 @@ public function __construct()
         }
 
         return false;
+    }
+
+    /**
+     * @return Inflector
+     */
+    private function getInflector()
+    {
+        if ($this->inflector === null) {
+            if (\class_exists(InflectorFactory::class)) {
+                $this->inflector = InflectorFactory::create()->build();
+            } else {
+                @trigger_error(
+                    'Using the old inflector is deprecated please upgrade the "doctrine/inflector" package.',
+                    E_USER_DEPRECATED
+                );
+
+                $this->inflector = new \Doctrine\Common\Inflector\Inflector();
+            }
+        }
+
+        return $this->inflector;
     }
 }

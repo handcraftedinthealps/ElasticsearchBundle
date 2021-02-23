@@ -22,7 +22,7 @@
         "symfony/templating": "^2.8|^3.0|^4|^5",
         "symfony/asset": "^2.8|^3.0|^4|^5",
         "doctrine/annotations": "~1.2",
-        "doctrine/inflector": "~1.0",
+        "doctrine/inflector": "^1.0 || ^2.0",
         "doctrine/cache": "~1.4",
         "doctrine/collections": "~1.4",
         "monolog/monolog": "^1.10 || ^2.0",

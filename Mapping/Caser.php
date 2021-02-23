@@ -11,13 +11,19 @@
 
 namespace ONGR\ElasticsearchBundle\Mapping;
 
-use Doctrine\Common\Inflector\Inflector;
+use Doctrine\Inflector\Inflector;
+use Doctrine\Inflector\InflectorFactory;
 
 /**
  * Utility for string case transformations.
  */
 class Caser
 {
+    /**
+     * @var Inflector
+     */
+    private static $inflector;
+
     /**
      * Transforms string to camel case (e.g., resultString).
      *
@@ -27,7 +33,9 @@ class Caser
      */
     public static function camel($string)
     {
-        return Inflector::camelize($string);
+        $inflector = static::getInflector();
+
+        return $inflector->camelize($string);
     }
 
     /**
@@ -43,5 +51,26 @@ class Caser
         $string = preg_replace('#([a-z\d])([A-Z])#', '\1_\2', $string);
 
         return strtolower(strtr($string, '-', '_'));
+    }
+
+    /**
+     * @return Inflector
+     */
+    private static function getInflector()
+    {
+        if (static::$inflector === null) {
+            if (\class_exists(InflectorFactory::class)) {
+                static::$inflector = InflectorFactory::create()->build();
+            } else {
+                @trigger_error(
+                    'Using the old inflector is deprecated please upgrade the "doctrine/inflector" package.',
+                    E_USER_DEPRECATED
+                );
+
+                static::$inflector = new \Doctrine\Common\Inflector\Inflector();
+            }
+        }
+
+        return static::$inflector;
     }
 }
