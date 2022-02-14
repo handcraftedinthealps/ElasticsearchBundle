@@ -44,7 +44,7 @@ class ONGRElasticsearchExtension extends Extension
 
         $managers = $config['managers'];
         foreach ($managers as &$manager) {
-            $manager['mappings'] = array_unique($manager['mappings']);
+            $manager['mappings'] = array_unique($manager['mappings'], SORT_REGULAR);
         }
         $container->setParameter('es.cache', $config['cache']);
         $container->setParameter('es.analysis', $config['analysis']);
