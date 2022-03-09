@@ -165,6 +165,7 @@ abstract class AbstractResultsIterator implements \Countable, \Iterator
      *
      * @return int
      */
+    #[\ReturnTypeWillChange]
     public function count()
     {
         return $this->count;
@@ -175,6 +176,7 @@ abstract class AbstractResultsIterator implements \Countable, \Iterator
      *
      * @return mixed
      */
+    #[\ReturnTypeWillChange]
     public function current()
     {
         return $this->getDocument($this->key());
@@ -183,6 +185,7 @@ abstract class AbstractResultsIterator implements \Countable, \Iterator
     /**
      * Move forward to next element.
      */
+    #[\ReturnTypeWillChange]
     public function next()
     {
         $this->advanceKey();
@@ -193,6 +196,7 @@ abstract class AbstractResultsIterator implements \Countable, \Iterator
      *
      * @return mixed
      */
+    #[\ReturnTypeWillChange]
     public function key()
     {
         return $this->key;
@@ -203,6 +207,7 @@ abstract class AbstractResultsIterator implements \Countable, \Iterator
      *
      * @return bool
      */
+    #[\ReturnTypeWillChange]
     public function valid()
     {
         if (!isset($this->documents)) {
@@ -222,6 +227,7 @@ abstract class AbstractResultsIterator implements \Countable, \Iterator
     /**
      * Rewind the Iterator to the first element.
      */
+    #[\ReturnTypeWillChange]
     public function rewind()
     {
         $this->key = 0;

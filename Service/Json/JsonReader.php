@@ -190,6 +190,7 @@ class JsonReader implements \Countable, \Iterator
      *
      * @return mixed
      */
+    #[\ReturnTypeWillChange]
     public function current()
     {
         if ($this->currentLine === null) {
@@ -202,6 +203,7 @@ class JsonReader implements \Countable, \Iterator
     /**
      * {@inheritdoc}
      */
+    #[\ReturnTypeWillChange]
     public function next()
     {
         $this->readLine();
@@ -212,6 +214,7 @@ class JsonReader implements \Countable, \Iterator
     /**
      * {@inheritdoc}
      */
+    #[\ReturnTypeWillChange]
     public function key()
     {
         return $this->key;
@@ -220,6 +223,7 @@ class JsonReader implements \Countable, \Iterator
     /**
      * {@inheritdoc}
      */
+    #[\ReturnTypeWillChange]
     public function valid()
     {
         return !feof($this->getFileHandler()) && $this->currentLine;
@@ -228,6 +232,7 @@ class JsonReader implements \Countable, \Iterator
     /**
      * {@inheritdoc}
      */
+    #[\ReturnTypeWillChange]
     public function rewind()
     {
         rewind($this->getFileHandler());
@@ -239,6 +244,7 @@ class JsonReader implements \Countable, \Iterator
     /**
      * {@inheritdoc}
      */
+    #[\ReturnTypeWillChange]
     public function count()
     {
         $metadata = $this->getMetadata();
