@@ -115,6 +115,7 @@ class AggregationValue implements \ArrayAccess, \IteratorAggregate
     /**
      * {@inheritdoc}
      */
+    #[\ReturnTypeWillChange]
     public function offsetExists($offset)
     {
         return array_key_exists($offset, $this->rawData);
@@ -123,6 +124,7 @@ class AggregationValue implements \ArrayAccess, \IteratorAggregate
     /**
      * {@inheritdoc}
      */
+    #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         if (!isset($this->rawData[$offset])) {
@@ -135,6 +137,7 @@ class AggregationValue implements \ArrayAccess, \IteratorAggregate
     /**
      * {@inheritdoc}
      */
+    #[\ReturnTypeWillChange]
     public function offsetSet($offset, $value)
     {
         throw new \LogicException('Aggregation result can not be changed on runtime.');
@@ -143,6 +146,7 @@ class AggregationValue implements \ArrayAccess, \IteratorAggregate
     /**
      * {@inheritdoc}
      */
+    #[\ReturnTypeWillChange]
     public function offsetUnset($offset)
     {
         throw new \LogicException('Aggregation result can not be changed on runtime.');

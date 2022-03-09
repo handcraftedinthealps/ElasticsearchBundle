@@ -19,6 +19,7 @@ class ArrayIterator extends AbstractResultsIterator implements \ArrayAccess
     /**
      * {@inheritdoc}
      */
+    #[\ReturnTypeWillChange]
     public function offsetExists($offset)
     {
         return $this->documentExists($offset);
@@ -27,6 +28,7 @@ class ArrayIterator extends AbstractResultsIterator implements \ArrayAccess
     /**
      * {@inheritdoc}
      */
+    #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         return $this->getDocument($offset);
@@ -35,6 +37,7 @@ class ArrayIterator extends AbstractResultsIterator implements \ArrayAccess
     /**
      * {@inheritdoc}
      */
+    #[\ReturnTypeWillChange]
     public function offsetSet($offset, $value)
     {
         $this->documents[$offset] = $value;
@@ -43,6 +46,7 @@ class ArrayIterator extends AbstractResultsIterator implements \ArrayAccess
     /**
      * {@inheritdoc}
      */
+    #[\ReturnTypeWillChange]
     public function offsetUnset($offset)
     {
         unset($this->documents[$offset]);
