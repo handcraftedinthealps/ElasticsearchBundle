@@ -9,7 +9,7 @@ on:
 
 jobs:
     php:
-        name: '${{ matrix.job-name-prefix }}PHP ${{ matrix.php-version }}, ES ${{ matrix.elasticsearch-version }}'
+        name: 'PHP ${{ matrix.php-version }}, ES ${{ matrix.elasticsearch-version }}'
         runs-on: ubuntu-latest
 
         strategy:
@@ -47,18 +47,22 @@ jobs:
                       elasticsearch-package-constraint: '^5.0'
 
                     - php-version: '7.4'
-                      job-name-prefix: 'Allow to fail: '
                       elasticsearch-version: '7.11.1'
-                      lint: true
+                      lint: false
                       symfony-version: '^5.0'
-                      elasticsearch-package-constraint: '^5.0'
+                      elasticsearch-package-constraint: '7.11.*'
 
                     - php-version: '8.0'
-                      job-name-prefix: 'Allow to fail: '
                       elasticsearch-version: '7.11.1'
-                      lint: true
+                      lint: false
                       symfony-version: '^5.0'
-                      elasticsearch-package-constraint: '^7.0'
+                      elasticsearch-package-constraint: '7.11.*'
+
+                    - php-version: '8.1'
+                      elasticsearch-version: '8.0.1'
+                      lint: false
+                      symfony-version: '^5.0'
+                      elasticsearch-package-constraint: '^8.0'
 
         services:
             elasticsearch:
