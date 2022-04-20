@@ -168,8 +168,9 @@ class ElasticsearchProfilerTest extends AbstractElasticsearchTestCase
         if (class_exists(LegacyClient::class)) {
             $this->assertArrayHasKey('port', $query, 'Query should have port set.');
             $this->assertNotEmpty($query['port'], 'Port should not be empty.');
-            unset($query['port']);
         }
+
+        unset($query['port']);
     }
 
     /**

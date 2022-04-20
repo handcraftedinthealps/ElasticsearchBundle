@@ -143,7 +143,10 @@ class ManagerFactory
                     : '5.0'
                 );
 
-        if (version_compare($elasticSearchVersion, '7.0.0', '>=')) {
+        if (
+            version_compare($elasticSearchVersion, '7.0.0', '>=')
+            && version_compare($elasticSearchVersion, '8.0.0', '<')
+        ) {
             $indexSettings['include_type_name'] = true;
         }
 
