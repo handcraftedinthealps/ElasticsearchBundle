@@ -106,7 +106,7 @@ class ManagerFactory
     {
         $mappings = $this->metadataCollector->getClientMapping($managerConfig['mappings']);
 
-        $client = class_exists(ClientBuilder::class) ? ClientBuilder::create() : LegacyClientBuilder::create();
+        $client = class_exists(ClientBuilder::class) ? ClientBuilder::create() : LecacyClientBuilder::create();
         $client->setHosts($connection['hosts']);
 
         if ($this->tracer && method_exists($client, 'setTracer')) {
@@ -138,8 +138,8 @@ class ManagerFactory
             defined(Client::class . '::VERSION')
                 ? Client::VERSION
                 : (
-                    defined(LegacyClient::class . '::VERSION')
-                    ? LegacyClient::VERSION
+                    defined(LecacyClient::class . '::VERSION')
+                    ? LecacyClient::VERSION
                     : '5.0'
                 );
 
