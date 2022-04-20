@@ -11,6 +11,7 @@
 
 namespace ONGR\ElasticsearchBundle\Tests\Functional\Profiler;
 
+use Elasticsearch\Client as LegacyClient;
 use ONGR\ElasticsearchBundle\Profiler\ElasticsearchProfiler;
 use ONGR\ElasticsearchBundle\Tests\app\fixture\TestBundle\Document\Product;
 use ONGR\ElasticsearchDSL\Aggregation\Bucketing\GlobalAggregation;
@@ -101,7 +102,6 @@ class ElasticsearchProfilerTest extends AbstractElasticsearchTestCase
                 'method' => 'GET',
                 'httpParameters' => [],
                 'scheme' => 'http',
-                'port' => 9200,
             ],
             $lastQuery,
             'Logged data did not match expected data.'
@@ -140,7 +140,6 @@ class ElasticsearchProfilerTest extends AbstractElasticsearchTestCase
                 'method' => 'POST',
                 'httpParameters' => [],
                 'scheme' => 'http',
-                'port' => 9200,
             ],
             $lastQuery,
             'Logged data did not match expected data.'
@@ -165,6 +164,12 @@ class ElasticsearchProfilerTest extends AbstractElasticsearchTestCase
         $this->assertArrayHasKey('path', $query, 'Query should have host path set.');
         $this->assertNotEmpty($query['path'], 'Path should not be empty.');
         unset($query['path']);
+
+        if (class_exists(LegacyClient::class)) {
+            $this->assertArrayHasKey('port', $query, 'Query should have port set.');
+            $this->assertNotEmpty($query['port'], 'Port should not be empty.');
+            unset($query['port']);
+        }
     }
 
     /**
