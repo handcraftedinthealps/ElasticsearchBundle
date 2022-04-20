@@ -20,6 +20,7 @@ use ONGR\ElasticsearchBundle\Event\PrePersistEvent;
 use ONGR\ElasticsearchBundle\Exception\BulkWithErrorsException;
 use ONGR\ElasticsearchBundle\Mapping\MetadataCollector;
 use ONGR\ElasticsearchBundle\Result\Converter;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\LegacyEventDispatcherProxy;
 use Symfony\Component\Stopwatch\Stopwatch;
@@ -734,7 +735,9 @@ class Manager
 
     private function dispatch($eventName, $event)
     {
-        if (class_exists(LegacyEventDispatcherProxy::class)) {
+        if (class_exists(LegacyEventDispatcherProxy::class)
+            || class_exists(AsEventListener::class)
+        ) {
             return $this->eventDispatcher->dispatch($event, $eventName);
         } else {
             return $this->eventDispatcher->dispatch($eventName, $event);

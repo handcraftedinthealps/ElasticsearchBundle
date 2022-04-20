@@ -38,14 +38,4 @@ class DocumentFinderTest extends WebTestCase
         $finder = new DocumentFinder($this->getContainer()->getParameter('kernel.bundles'));
         $finder->getBundleClass('NotExistingBundle');
     }
-
-    /**
-     * Returns service container.
-     *
-     * @return ContainerInterface
-     */
-    public function getContainer()
-    {
-        return $this->createClient()->getContainer();
-    }
 }

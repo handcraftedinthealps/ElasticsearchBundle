@@ -19,6 +19,9 @@
         "symfony/framework-bundle": "^3.4|^4.4|^5.4",
         "symfony/console": "^3.4|^4.4|^5.4",
         "symfony/stopwatch": "^3.4|^4.4|^5.4",
+        "symfony/event-dispatcher": "^3.4|^4.4|^5.4",
+        "symfony/dependency-injection": "^3.4|^4.4|^5.4",
+        "symfony/config": "^3.4|^4.4|^5.4",
         "symfony/templating": "^3.4|^4.4|^5.4",
         "symfony/asset": "^3.4|^4.4|^5.4",
         "doctrine/annotations": "~1.2",
@@ -37,7 +40,6 @@
         "symfony/serializer": "^3.4|^4.4|^5.4",
         "symfony/yaml": "^3.4|^4.4|^5.4",
         "symfony/phpunit-bridge": "^5.4",
-        "symfony/dependency-injection": "^3.4|^4.4|^5.4",
         "symfony/validator": "^3.4|^4.4|^5.4",
         "symfony/options-resolver": "^3.4|^4.4|^5.4"
     },
