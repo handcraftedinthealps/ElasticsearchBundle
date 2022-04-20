@@ -11,8 +11,10 @@
 
 namespace ONGR\ElasticsearchBundle\Service;
 
-use Elasticsearch\Client;
-use Elasticsearch\ClientBuilder;
+use Elastic\Elasticsearch\ClientBuilder;
+use Elastic\Elasticsearch\Client;
+use Elasticsearch\Client as LecacyClient;
+use Elasticsearch\ClientBuilder as LecacyClientBuilder;
 use ONGR\ElasticsearchBundle\Event\Events;
 use ONGR\ElasticsearchBundle\Event\PostCreateManagerEvent;
 use ONGR\ElasticsearchBundle\Event\PreCreateManagerEvent;
@@ -104,10 +106,10 @@ class ManagerFactory
     {
         $mappings = $this->metadataCollector->getClientMapping($managerConfig['mappings']);
 
-        $client = ClientBuilder::create();
+        $client = class_exists(ClientBuilder::class) ? ClientBuilder::create() : LegacyClientBuilder::create();
         $client->setHosts($connection['hosts']);
 
-        if ($this->tracer) {
+        if ($this->tracer && method_exists($client, 'setTracer')) {
             $client->setTracer($this->tracer);
         }
 
@@ -132,7 +134,14 @@ class ManagerFactory
         ];
 
         // set elasticsearch specific settings
-        $elasticSearchVersion = defined(Client::class . '::VERSION') ? Client::VERSION : '5.0';
+        $elasticSearchVersion =
+            defined(Client::class . '::VERSION')
+                ? Client::VERSION
+                : (
+                    defined(LegacyClient::class . '::VERSION')
+                    ? LegacyClient::VERSION
+                    : '5.0'
+                );
 
         if (version_compare($elasticSearchVersion, '7.0.0', '>=')) {
             $indexSettings['include_type_name'] = true;

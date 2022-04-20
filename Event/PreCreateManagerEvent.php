@@ -11,7 +11,8 @@
 
 namespace ONGR\ElasticsearchBundle\Event;
 
-use Elasticsearch\ClientBuilder;
+use Elastic\Elasticsearch\ClientBuilder;
+use Elasticsearch\ClientBuilder as LegacyClientBuilder;
 
 class PreCreateManagerEvent extends BaseEvent
 {
@@ -28,17 +29,17 @@ class PreCreateManagerEvent extends BaseEvent
     /**
      * CreateManagerEvent constructor.
      *
-     * @param ClientBuilder $client
+     * @param ClientBuilder|LegacyClientBuilder $client
      * @param $indexSettings array
      */
-    public function __construct(ClientBuilder $client, &$indexSettings)
+    public function __construct($client, &$indexSettings)
     {
         $this->client = $client;
         $this->indexSettings = $indexSettings;
     }
 
     /**
-     * @return ClientBuilder
+     * @return ClientBuilder|LegacyClientBuilder
      */
     public function getClient()
     {
@@ -46,9 +47,9 @@ class PreCreateManagerEvent extends BaseEvent
     }
 
     /**
-     * @param ClientBuilder $client
+     * @param ClientBuilder|LegacyClientBuilder $client
      */
-    public function setClient(ClientBuilder $client)
+    public function setClient($client)
     {
         $this->client = $client;
     }

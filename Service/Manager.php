@@ -11,8 +11,10 @@
 
 namespace ONGR\ElasticsearchBundle\Service;
 
-use Elasticsearch\Client;
-use Elasticsearch\Common\Exceptions\Missing404Exception;
+use Elastic\Elasticsearch\Client;
+use Elastic\Elasticsearch\Exception\ClientResponseException;
+use Elasticsearch\Client as LegacyClient;
+use Elasticsearch\Common\Exceptions\Missing404Exception as LegacyMissing404Exception;
 use ONGR\ElasticsearchBundle\Event\Events;
 use ONGR\ElasticsearchBundle\Event\BulkEvent;
 use ONGR\ElasticsearchBundle\Event\CommitEvent;
@@ -41,7 +43,7 @@ class Manager
     private $config = [];
 
     /**
-     * @var Client
+     * @var Client|LegacyClient
      */
     private $client;
 
@@ -110,7 +112,7 @@ class Manager
     /**
      * @param string            $name              Manager name
      * @param array             $config            Manager configuration
-     * @param Client            $client
+     * @param Client|LegacyClient $client
      * @param array             $indexSettings
      * @param MetadataCollector $metadataCollector
      * @param Converter         $converter
@@ -134,7 +136,7 @@ class Manager
     /**
      * Returns Elasticsearch connection.
      *
-     * @return Client
+     * @return Client|LegacyClient
      */
     public function getClient()
     {
@@ -647,7 +649,13 @@ class Manager
 
         try {
             $result = $this->getClient()->get($params);
-        } catch (Missing404Exception $e) {
+        } catch (LegacyMissing404Exception $e) {
+            return null;
+        } catch (ClientResponseException $e) {
+            if ($e->getResponse()->getStatusCode() !== 404) {
+                throw $e;
+            }
+
             return null;
         }
 

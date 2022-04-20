@@ -11,7 +11,8 @@
 
 namespace ONGR\ElasticsearchBundle\Tests\Functional;
 
-use Elasticsearch\Common\Exceptions\Missing404Exception;
+use Elastic\Elasticsearch\Exception\ClientResponseException;
+use Elasticsearch\Common\Exceptions\Missing404Exception as LegacyMissing404Exception;
 use ONGR\ElasticsearchBundle\Result\DocumentIterator;
 use ONGR\ElasticsearchBundle\Tests\app\fixture\TestBundle\Document\Product;
 use ONGR\ElasticsearchDSL\Query\Compound\BoolQuery;
@@ -333,7 +334,11 @@ class RepositoryTest extends AbstractElasticsearchTestCase
      */
     public function testRemoveException()
     {
-        $this->expectException(Missing404Exception::class);
+        if (class_exists(ClientResponseException::class)) {
+            $this->expectException(ClientResponseException::class);
+        } else {
+            $this->expectException(LegacyMissing404Exception::class);
+        }
 
         $manager = $this->getManager();
 

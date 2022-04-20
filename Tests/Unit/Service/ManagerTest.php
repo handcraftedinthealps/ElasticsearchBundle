@@ -11,6 +11,10 @@
 
 namespace ONGR\ElasticsearchBundle\Tests\Unit\Service;
 
+use Elastic\Elasticsearch\Client;
+use Elastic\Elasticsearch\Endpoints\Indices;
+use Elasticsearch\Namespaces\IndicesNamespace as LegacyIndicesNamespace;
+use Elasticsearch\Client as LegacyClient;
 use ONGR\ElasticsearchBundle\Service\Manager;
 use ONGR\ElasticsearchDSL\Query\MatchAllQuery;
 use ONGR\ElasticsearchDSL\Search;
@@ -185,9 +189,9 @@ class ManagerTest extends TestCase
      */
     public function testBulk($expected, $calls)
     {
-        $indices = $this->createMock('Elasticsearch\Namespaces\IndicesNamespace');
+        $indices = $this->createMock(class_exists(Indices::class) ? Indices::class : LegacyIndicesNamespace::class);
 
-        $esClient = $this->createMock('Elasticsearch\Client');
+        $esClient = $this->createMock(class_exists(Client::class) ? Client::class : LegacyClient::class);
         $esClient->expects($this->once())->method('bulk')->with($expected);
         $esClient->expects($this->any())->method('indices')->will($this->returnValue($indices));
 
@@ -221,9 +225,11 @@ class ManagerTest extends TestCase
         $expected = $this->getTestBulkData()['update_script']['expected'];
         $expected['refresh'] = true;
         $calls = $this->getTestBulkData()['update_script']['calls'];
-        $indices = $this->createMock('Elasticsearch\Namespaces\IndicesNamespace');
 
-        $esClient = $this->createMock('Elasticsearch\Client');
+        $indices = $this->createMock(class_exists(Indices::class) ? Indices::class : LegacyIndicesNamespace::class);
+
+        $esClient = $this->createMock(class_exists(Client::class) ? Client::class : LegacyClient::class);
+
         $esClient->expects($this->any())->method('bulk')->with($expected)->willReturn(['errors' => false]);
         $esClient->expects($this->any())->method('indices')->will($this->returnValue($indices));
 
@@ -265,7 +271,7 @@ class ManagerTest extends TestCase
     public function testClearScroll()
     {
         $esClient = $this
-            ->getMockBuilder('Elasticsearch\Client')
+            ->getMockBuilder(class_exists(Client::class) ? Client::class : LegacyClient::class)
             ->setMethods(['clearScroll'])
             ->disableOriginalConstructor()
             ->getMock();
@@ -306,7 +312,7 @@ class ManagerTest extends TestCase
     {
         $search = new Search();
         $search->addQuery(new MatchAllQuery());
-        $client = $this->getMockBuilder('Elasticsearch\Client')
+        $client = $this->getMockBuilder(class_exists(Client::class) ? Client::class : LegacyClient::class)
             ->disableOriginalConstructor()
             ->getMock();
         $manager = new Manager(
