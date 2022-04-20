@@ -14,34 +14,16 @@ namespace ONGR\ElasticsearchBundle\DependencyInjection;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Reference;
-use Symfony\Component\HttpKernel\Kernel;
-use Symfony\Component\HttpKernel\KernelEvents;
 
 /**
  * This is the class that loads and manages bundle configuration.
  */
-class ONGRElasticsearchExtension extends Extension implements PrependExtensionInterface
+class ONGRElasticsearchExtension extends Extension
 {
-    public function prepend(ContainerBuilder $container): void
-    {
-        $container->prependExtensionConfig('framework',
-            [
-                'cache' => [
-                    'pools' => [
-                        'es.cache_engine_pool' => [
-                            'adapter' => 'cache.system',
-                        ],
-                    ],
-                ],
-            ]
-        );
-    }
-
     /**
      * {@inheritdoc}
      */
