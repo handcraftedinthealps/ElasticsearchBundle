@@ -53,6 +53,8 @@ class Converter
 
         if (isset($types[$rawData['_type']])) {
             $metadata = $types[$rawData['_type']];
+        } elseif ($rawData['_type'] === '_doc') {
+            $metadata = reset($types);
         } else {
             throw new \LogicException("Got document of unknown type '{$rawData['_type']}'.");
         }
