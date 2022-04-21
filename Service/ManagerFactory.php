@@ -136,6 +136,15 @@ class ManagerFactory
 
         if (version_compare($elasticSearchVersion, '7.0.0', '>=')) {
             $indexSettings['include_type_name'] = true;
+
+            $client->setConnectionParams([
+                'client' => [
+                    'headers' => [
+                        'Accept' => ['application/vnd.elasticsearch+json;compatible-with=7'],
+                        'Content-Type' => ['application/vnd.elasticsearch+json;compatible-with=7'],
+                    ]
+                ]
+            ]);
         }
 
         $this->eventDispatcher &&
