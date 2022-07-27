@@ -11,8 +11,6 @@
 
 namespace ONGR\ElasticsearchBundle\Service;
 
-use Elasticsearch\Helper\Iterators\SearchHitIterator;
-use Elasticsearch\Helper\Iterators\SearchResponseIterator;
 use ONGR\ElasticsearchBundle\Result\RawIterator;
 use ONGR\ElasticsearchBundle\Service\Json\JsonWriter;
 use ONGR\ElasticsearchDSL\Query\MatchAllQuery;

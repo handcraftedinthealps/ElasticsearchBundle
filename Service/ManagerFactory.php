@@ -11,8 +11,10 @@
 
 namespace ONGR\ElasticsearchBundle\Service;
 
-use Elasticsearch\Client;
-use Elasticsearch\ClientBuilder;
+use Elastic\Elasticsearch\ClientBuilder;
+use Elastic\Elasticsearch\Client;
+use Elasticsearch\Client as LecacyClient;
+use Elasticsearch\ClientBuilder as LecacyClientBuilder;
 use ONGR\ElasticsearchBundle\Event\Events;
 use ONGR\ElasticsearchBundle\Event\PostCreateManagerEvent;
 use ONGR\ElasticsearchBundle\Event\PreCreateManagerEvent;
@@ -20,6 +22,7 @@ use ONGR\ElasticsearchBundle\Mapping\MetadataCollector;
 use ONGR\ElasticsearchBundle\Result\Converter;
 use PackageVersions\Versions;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\LegacyEventDispatcherProxy;
 use Symfony\Component\Stopwatch\Stopwatch;
@@ -103,10 +106,10 @@ class ManagerFactory
     {
         $mappings = $this->metadataCollector->getClientMapping($managerConfig['mappings']);
 
-        $client = ClientBuilder::create();
+        $client = class_exists(ClientBuilder::class) ? ClientBuilder::create() : LecacyClientBuilder::create();
         $client->setHosts($connection['hosts']);
 
-        if ($this->tracer) {
+        if ($this->tracer && method_exists($client, 'setTracer')) {
             $client->setTracer($this->tracer);
         }
 
@@ -131,9 +134,19 @@ class ManagerFactory
         ];
 
         // set elasticsearch specific settings
-        $elasticSearchVersion = defined(Client::class . '::VERSION') ? Client::VERSION : '5.0';
+        $elasticSearchVersion =
+            defined(Client::class . '::VERSION')
+                ? Client::VERSION
+                : (
+                    defined(LecacyClient::class . '::VERSION')
+                    ? LecacyClient::VERSION
+                    : '5.0'
+                );
 
-        if (version_compare($elasticSearchVersion, '7.0.0', '>=')) {
+        if (
+            version_compare($elasticSearchVersion, '7.0.0', '>=')
+            && version_compare($elasticSearchVersion, '8.0.0', '<')
+        ) {
             $indexSettings['include_type_name'] = true;
         }
 
@@ -169,7 +182,9 @@ class ManagerFactory
 
     private function dispatch($eventName, $event)
     {
-        if (class_exists(LegacyEventDispatcherProxy::class)) {
+        if (class_exists(LegacyEventDispatcherProxy::class)
+            || class_exists(AsEventListener::class)
+        ) {
             return $this->eventDispatcher->dispatch($event, $eventName);
         } else {
             return $this->eventDispatcher->dispatch($eventName, $event);

@@ -9,56 +9,36 @@ on:
 
 jobs:
     php:
-        name: '${{ matrix.job-name-prefix }}PHP ${{ matrix.php-version }}, ES ${{ matrix.elasticsearch-version }}'
+        name: 'PHP ${{ matrix.php-version }}, ES ${{ matrix.elasticsearch-version }}'
         runs-on: ubuntu-latest
 
         strategy:
             fail-fast: false
             matrix:
                 include:
-                    - php-version: '5.6'
-                      elasticsearch-version: '5.6.14'
-                      lint: false
-                      symfony-version: '^2.8'
-                      elasticsearch-package-constraint: '^5.0'
-
-                    - php-version: '7.0'
-                      elasticsearch-version: '5.6.14'
-                      lint: false
-                      symfony-version: '^3.4'
-                      elasticsearch-package-constraint: '^5.0'
-
-                    - php-version: '7.2'
-                      elasticsearch-version: '5.6.14'
-                      lint: false
-                      symfony-version: '^3.4'
-                      elasticsearch-package-constraint: '^5.0'
-
-                    - php-version: '7.3'
-                      elasticsearch-version: '5.6.14'
-                      lint: false
-                      symfony-version: '^4.4'
-                      elasticsearch-package-constraint: '^5.0'
-
                     - php-version: '7.4'
                       elasticsearch-version: '5.6.14'
                       lint: true
-                      symfony-version: '^5.0'
+                      symfony-version: '^3.4'
                       elasticsearch-package-constraint: '^5.0'
 
                     - php-version: '7.4'
-                      job-name-prefix: 'Allow to fail: '
                       elasticsearch-version: '7.11.1'
-                      lint: true
-                      symfony-version: '^5.0'
-                      elasticsearch-package-constraint: '^5.0'
+                      lint: false
+                      symfony-version: '^3.4'
+                      elasticsearch-package-constraint: '7.11.*'
 
                     - php-version: '8.0'
-                      job-name-prefix: 'Allow to fail: '
                       elasticsearch-version: '7.11.1'
-                      lint: true
-                      symfony-version: '^5.0'
-                      elasticsearch-package-constraint: '^7.0'
+                      lint: false
+                      symfony-version: '^4.4'
+                      elasticsearch-package-constraint: '7.11.*'
+
+                    - php-version: '8.1'
+                      elasticsearch-version: '8.0.1'
+                      lint: false
+                      symfony-version: '^5.4'
+                      elasticsearch-package-constraint: '^8.0'
 
         services:
             elasticsearch:
@@ -103,7 +83,7 @@ jobs:
 
             - name: Fix code style
               if: ${{ matrix.lint }}
-              run: vendor/bin/phpcs -p --standard=PSR2 --ignore=vendor/,Tests/app/,Profiler/Handler/BackwardCompatibilityWriteTrait.php ./
+              run: vendor/bin/phpcs -p --standard=PSR2 --ignore=vendor/,Tests/app/,var/,Profiler/Handler/BackwardCompatibilityWriteTrait.php ./
 
             - name: Run tests
               run: vendor/bin/simple-phpunit

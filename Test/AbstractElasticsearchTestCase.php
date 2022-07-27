@@ -172,7 +172,7 @@ abstract class AbstractElasticsearchTestCase extends WebTestCase
      *
      * @return ContainerInterface
      */
-    protected function getContainer($kernelOptions = [])
+    protected static function getContainer($kernelOptions = []): ContainerInterface
     {
         if (null === self::$container) {
             self::bootKernel($kernelOptions);
