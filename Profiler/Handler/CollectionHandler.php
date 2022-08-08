@@ -25,7 +25,7 @@ class CollectionHandler extends AbstractProcessingHandler
     private $records = [];
 
     /**
-     * @param array/LogRecord $record
+     * @param array|LogRecord $record
      */
     protected function write($record): void
     {
