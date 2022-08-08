@@ -16,35 +16,34 @@ jobs:
             fail-fast: false
             matrix:
                 include:
-                    - php-version: '5.6'
+                    - php-version: '7.2'
                       elasticsearch-version: '5.6.14'
                       lint: false
                       symfony-version: '^2.8'
                       elasticsearch-package-constraint: '^5.0'
-
-                    - php-version: '7.0'
-                      elasticsearch-version: '5.6.14'
-                      lint: false
-                      symfony-version: '^3.4'
-                      elasticsearch-package-constraint: '^5.0'
+                      env:
+                          SYMFONY_PHPUNIT_VERSION: '7.5'
 
                     - php-version: '7.2'
                       elasticsearch-version: '5.6.14'
                       lint: false
                       symfony-version: '^3.4'
                       elasticsearch-package-constraint: '^5.0'
+                      env: {}
 
                     - php-version: '7.3'
                       elasticsearch-version: '5.6.14'
                       lint: false
                       symfony-version: '^4.4'
                       elasticsearch-package-constraint: '^5.0'
+                      env: {}
 
                     - php-version: '7.4'
                       elasticsearch-version: '5.6.14'
                       lint: true
                       symfony-version: '^5.0'
                       elasticsearch-package-constraint: '^5.0'
+                      env: {}
 
                     - php-version: '7.4'
                       job-name-prefix: 'Allow to fail: '
@@ -52,6 +51,7 @@ jobs:
                       lint: true
                       symfony-version: '^5.0'
                       elasticsearch-package-constraint: '^5.0'
+                      env: {}
 
                     - php-version: '8.0'
                       job-name-prefix: 'Allow to fail: '
@@ -59,6 +59,15 @@ jobs:
                       lint: true
                       symfony-version: '^5.0'
                       elasticsearch-package-constraint: '^7.0'
+                      env: {}
+
+                    - php-version: '8.1'
+                      job-name-prefix: 'Allow to fail: '
+                      elasticsearch-version: '7.11.1'
+                      lint: true
+                      symfony-version: '^6.0'
+                      elasticsearch-package-constraint: '^7.0'
+                      env: {}
 
         services:
             elasticsearch:
@@ -107,3 +116,4 @@ jobs:
 
             - name: Run tests
               run: vendor/bin/simple-phpunit
+              env: ${{ matrix.env }}

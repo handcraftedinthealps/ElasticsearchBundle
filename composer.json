@@ -15,31 +15,32 @@
         }
     ],
     "require": {
-        "php": "^5.6|^7.0|^8.0",
-        "symfony/framework-bundle": "^2.8|^3.0|^4|^5",
-        "symfony/console": "^2.8|^3.0|^4|^5",
-        "symfony/stopwatch": "^2.8|^3.0|^4|^5",
-        "symfony/templating": "^2.8|^3.0|^4|^5",
-        "symfony/asset": "^2.8|^3.0|^4|^5",
+        "php": "^7.2|^8.0",
+        "symfony/framework-bundle": "^2.8|^3.0|^4|^5|^6",
+        "symfony/console": "^2.8|^3.0|^4|^5|^6",
+        "symfony/stopwatch": "^2.8|^3.0|^4|^5|^6",
+        "symfony/templating": "^2.8|^3.0|^4|^5|^6",
+        "symfony/asset": "^2.8|^3.0|^4|^5|^6",
         "doctrine/annotations": "~1.2",
         "doctrine/inflector": "^1.0 || ^2.0",
         "doctrine/cache": "~1.4",
         "doctrine/collections": "~1.4",
         "monolog/monolog": "^1.10 || ^2.0",
-        "handcraftedinthealps/elasticsearch-dsl": "^5.0.7.1|^6.2.0.1|^7.2.0.1"
+        "handcraftedinthealps/elasticsearch-dsl": "^5.0.7.1|^6.2.0.1|^7.2.0.1",
+        "symfony/event-dispatcher": "^2.8|^3.0|^4|^5|^6"
     },
     "require-dev": {
         "mikey179/vfsstream": "~1.4",
         "squizlabs/php_codesniffer": "^2.0|^3.0",
-        "symfony/browser-kit" : "^2.8|^3.4|^4|^5",
-        "symfony/expression-language" : "^2.8|^3.4|^4|^5",
-        "symfony/twig-bundle": "^2.8|^3.4|^4|^5",
-        "symfony/serializer": "^2.8|^3.4|^4|^5",
-        "symfony/yaml": "^2.8|^3.4|^4|^5",
-        "symfony/phpunit-bridge": "^5.1",
-        "symfony/dependency-injection": "^2.8|^3.4|^4|^5",
-        "symfony/validator": "^2.8|^3.4|^4|^5",
-        "symfony/options-resolver": "^2.8|^3.4|^4|^5"
+        "symfony/browser-kit" : "^2.8|^3.4|^4|^5|^6",
+        "symfony/expression-language" : "^2.8|^3.4|^4|^5|^6",
+        "symfony/twig-bundle": "^2.8|^3.4|^4|^5|^6",
+        "symfony/serializer": "^2.8|^3.4|^4|^5|^6",
+        "symfony/yaml": "^2.8|^3.4|^4|^5|^6",
+        "symfony/phpunit-bridge": "^5.1|^6",
+        "symfony/dependency-injection": "^2.8|^3.4|^4|^5|^6",
+        "symfony/validator": "^2.8|^3.4|^4|^5|^6",
+        "symfony/options-resolver": "^2.8|^3.4|^4|^5|^6"
     },
     "autoload": {
         "psr-4": { "ONGR\\ElasticsearchBundle\\": "" },

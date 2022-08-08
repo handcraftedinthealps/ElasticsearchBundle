@@ -23,6 +23,7 @@ use ONGR\ElasticsearchBundle\Result\Converter;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\LegacyEventDispatcherProxy;
 use Symfony\Component\Stopwatch\Stopwatch;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface as ContractsEventDispatcherInterface;
 
 /**
  * Manager class.
@@ -734,7 +735,8 @@ class Manager
 
     private function dispatch($eventName, $event)
     {
-        if (class_exists(LegacyEventDispatcherProxy::class)) {
+        if ($this->eventDispatcher instanceof ContractsEventDispatcherInterface
+            || class_exists(LegacyEventDispatcherProxy::class)) {
             return $this->eventDispatcher->dispatch($event, $eventName);
         } else {
             return $this->eventDispatcher->dispatch($eventName, $event);

@@ -16,12 +16,9 @@ use ONGR\ElasticsearchBundle\Mapping\MetadataCollector;
 use ONGR\ElasticsearchBundle\Result\Converter;
 use ONGR\ElasticsearchBundle\Tests\app\fixture\TestBundle\Document\Product;
 use PHPUnit\Framework\TestCase;
-use Symfony\Bridge\PhpUnit\SetUpTearDownTrait;
 
 class ConverterTest extends TestCase
 {
-    use SetUpTearDownTrait;
-
     /**
      * @var MetadataCollector
      */
@@ -35,7 +32,7 @@ class ConverterTest extends TestCase
     /**
      * @inheritdoc
      */
-    public function doSetUp()
+    protected function setUp(): void
     {
         $this->metadataCollector = $this->getMockBuilder('ONGR\ElasticsearchBundle\Mapping\MetadataCollector')
             ->disableOriginalConstructor()

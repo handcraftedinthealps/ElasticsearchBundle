@@ -3,10 +3,10 @@
 This is a fork of the [ongr/elasticsearch-bundle](https://github.com/ongr-io/elasticsearchbundle).
 With some basic changes to support wider range of Symfony Versions.
 
-| Version   | Supported Elasticsearch Version | Supported Symfony Version |
-|-----------|---------------------------------|---------------------------|
-| `5.x`     | `^7.0, ^6.0, ^5.0`              | `^5.0, ^4.0, ^3.4, ^2.8`  |
-| `1.x`     | `^1.0, ^2.0`                    | `^3.0, ^2.7`              |
+| Version   | Supported Elasticsearch Version | Supported Symfony Version      |
+|-----------|---------------------------------|--------------------------------|
+| `5.x`     | `^7.0, ^6.0, ^5.0`              | `^6.0, ^5.0, ^4.0, ^3.4, ^2.8` |
+| `1.x`     | `^1.0, ^2.0`                    | `^3.0, ^2.7`                   |
 
 ## Documentation
 

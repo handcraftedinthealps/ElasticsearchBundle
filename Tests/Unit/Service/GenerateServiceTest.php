@@ -5,13 +5,10 @@ namespace ONGR\ElasticsearchBundle\Tests\Unit\Generator;
 use ONGR\ElasticsearchBundle\Generator\DocumentGenerator;
 use ONGR\ElasticsearchBundle\Service\GenerateService;
 use PHPUnit\Framework\TestCase;
-use Symfony\Bridge\PhpUnit\SetUpTearDownTrait;
 use Symfony\Component\Filesystem\Filesystem;
 
 class GenerateServiceTest extends TestCase
 {
-    use SetUpTearDownTrait;
-
     /**
      * @var string
      */
@@ -25,7 +22,7 @@ class GenerateServiceTest extends TestCase
     /**
      * {@inheritdoc}
      */
-    public function doSetUp()
+    protected function setUp(): void
     {
         $this->tmpDir = sys_get_temp_dir() . '/ongr';
 

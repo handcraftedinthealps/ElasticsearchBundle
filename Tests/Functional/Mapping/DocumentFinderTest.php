@@ -44,8 +44,8 @@ class DocumentFinderTest extends WebTestCase
      *
      * @return ContainerInterface
      */
-    public function getContainer()
+    protected static function getContainer(): ContainerInterface
     {
-        return $this->createClient()->getContainer();
+        return static::createClient()->getContainer();
     }
 }

@@ -14,12 +14,9 @@ namespace ONGR\ElasticsearchBundle\Tests\Unit\Mapping;
 use ONGR\ElasticsearchBundle\Mapping\DocumentParser;
 use ONGR\ElasticsearchBundle\Tests\app\fixture\TestBundle\Document\LongDescriptionTrait;
 use PHPUnit\Framework\TestCase;
-use Symfony\Bridge\PhpUnit\SetUpTearDownTrait;
 
 class DocumentParserTest extends TestCase
 {
-    use SetUpTearDownTrait;
-
     /*
      * @var \Doctrine\Common\Annotations\Reader
      */
@@ -30,7 +27,7 @@ class DocumentParserTest extends TestCase
      */
     private $finder;
 
-    public function doSetUp()
+    protected function setUp(): void
     {
         $this->reader = $this->getMockBuilder('Doctrine\Common\Annotations\Reader')
             ->disableOriginalConstructor()

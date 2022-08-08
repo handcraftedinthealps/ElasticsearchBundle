@@ -22,8 +22,9 @@ class AppKernel extends Kernel
      *
      * @return array
      */
-    public function registerBundles()
-    {
+    #[\ReturnTypeWillChange] public function registerBundles(): iterable /*
+    public function registerBundles() /* PHP<8 */
+    { // @codingStandardsIgnoreLine
         return [
             new Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
             new ONGR\ElasticsearchBundle\ONGRElasticsearchBundle(),

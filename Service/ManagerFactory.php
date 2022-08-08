@@ -21,6 +21,7 @@ use ONGR\ElasticsearchBundle\Result\Converter;
 use PackageVersions\Versions;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface as ContractsEventDispatcherInterface;
 use Symfony\Component\EventDispatcher\LegacyEventDispatcherProxy;
 use Symfony\Component\Stopwatch\Stopwatch;
 
@@ -169,7 +170,8 @@ class ManagerFactory
 
     private function dispatch($eventName, $event)
     {
-        if (class_exists(LegacyEventDispatcherProxy::class)) {
+        if ($this->eventDispatcher instanceof ContractsEventDispatcherInterface
+            || class_exists(LegacyEventDispatcherProxy::class)) {
             return $this->eventDispatcher->dispatch($event, $eventName);
         } else {
             return $this->eventDispatcher->dispatch($eventName, $event);
