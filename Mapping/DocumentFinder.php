@@ -11,6 +11,8 @@
 
 namespace ONGR\ElasticsearchBundle\Mapping;
 
+use function class_exists;
+
 /**
  * Finds documents in bundles.
  */
@@ -30,11 +32,18 @@ class DocumentFinder
      * Constructor.
      *
      * @param array $bundles Parameter kernel.bundles from service container.
+     * @param string $appRootClass A class that has to be in the app's root folder. By default, the app's kernel class is used.
+     *                             This is to ensure the fake bundle "App" can be used for mappings.
+     *                             It is not a perfect solution but the easiest.
      */
-    public function __construct(array $bundles)
+    public function __construct(array $bundles, string $appRootClass = 'App\\Kernel')
     {
         $this->documentDir = 'Document';
         $this->bundles = $bundles;
+
+        if (!empty($appRootClass) && class_exists($appRootClass)) {
+            $this->bundles['App'] = $appRootClass;
+        }
     }
 
     /**

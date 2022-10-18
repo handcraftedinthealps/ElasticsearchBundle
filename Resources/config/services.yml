@@ -1,4 +1,5 @@
 parameters:
+    es.app_root_class: 'App\Kernel'
     es.logging.path: "%kernel.logs_dir%/elasticsearch_%kernel.environment%.log"
 
 services:
@@ -27,7 +28,7 @@ services:
     es.document_finder:
         class: 'ONGR\ElasticsearchBundle\Mapping\DocumentFinder'
         public: true
-        arguments: ["%kernel.bundles%"]
+        arguments: ["%kernel.bundles%", "%es.app_root_class%"]
 
     es.document_parser:
         class: 'ONGR\ElasticsearchBundle\Mapping\DocumentParser'

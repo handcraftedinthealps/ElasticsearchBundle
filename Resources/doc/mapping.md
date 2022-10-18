@@ -3,6 +3,21 @@
 Elasticsearch bundle requires mapping definitions for it to work with complex operations,
 like insert and update documents, do a full-text search, etc.
 
+### App mapping
+
+In order for the app's classes to be mapped a fake bundle with the name `App` is added. This is not a perfect solution but was the easiest to implement and add support for it.
+
+It requires a class in the project's source root folder.
+
+By default, the `App\kernel` class is used. This class can be changed to any other class by using the configuration:
+
+```yaml
+ongr_elasticsearch:
+  app_root_class: 'App\FakeAppRoot'
+```
+
+The referenced class has to exist as it is used with various ReflectionClass instances to find their folder etc., but can otherwise be empty. If the class does not exist, no mappings for `App` can be configured.
+
 ### Mapping configuration
 
 Here's an example of configuration containing the definitions of filter and analyzer:
@@ -29,7 +44,7 @@ ongr_elasticsearch:
                 hosts:
                     - 127.0.0.1:9200
             mappings:
-                - AppBundle
+                - App
 ```
 
 From 5.0 version mapping was enchased, and now you can change documents directory. See the example below:
@@ -43,7 +58,7 @@ From 5.0 version mapping was enchased, and now you can change documents director
                 hosts:
                     - 127.0.0.1:9200
             mappings:
-                AppBundle: ~ #Document dir will be Document.
+                App: ~ #Document dir will be Document.
                 CustomBundle:
                     document_dir: Entity #For this bundle will search documents in the Entity.
                     
@@ -53,7 +68,7 @@ From 5.0 version mapping was enchased, and now you can change documents director
                 hosts:
                     - 127.0.0.1:9200
             mappings:
-                - AppBundle
+                - App
 ```
 
 > Both mappings are valid. In the above example, you can change the directory for the particular
@@ -132,7 +147,7 @@ ongr_elasticsearch:
                 hosts:
                     - 127.0.0.1:9200
             mappings:
-                - AppBundle
+                - App
 ```
 
 ### Document class annotations
@@ -140,9 +155,9 @@ ongr_elasticsearch:
 Lets start with a document class example.
 
 ```php
-// src/AppBundle/Document/Content.php
+// src/App/Document/Content.php
 
-namespace AppBundle\Document;
+namespace App\Document;
 
 use ONGR\ElasticsearchBundle\Annotation as ES;
 
@@ -204,8 +219,8 @@ Analyzers names must be defined in `config.yml` under the `analysis` node (read 
 Here's an example how to add it:
 
 ```php
-// src/AppBundle/Document/Product.php
-namespace AppBundle\Document;
+// src/App/Document/Product.php
+namespace App\Document;
 
 use ONGR\ElasticsearchBundle\Annotation as ES;
 
@@ -238,9 +253,9 @@ To define a nested or object type you have to use `@ES\Embedded` annotation and 
 class for this annotation. Here's an example, lets assume we have a `Product` type with `Variant` object field.
 
 ```php
-// src/AppBundle/Document/Product.php
+// src/App/Document/Product.php
 
-namespace AppBundle\Document;
+namespace App\Document;
 
 use ONGR\ElasticsearchBundle\Annotation as ES;
 
@@ -257,7 +272,7 @@ class Product
     /**
      * @var ContentMetaObject
      *
-     * @ES\Embedded(class="AppBundle:CategoryObject")
+     * @ES\Embedded(class="App\Dcouemnt\CategoryObject")
      */
     private $category;
 
@@ -268,9 +283,9 @@ class Product
 And the `Category` object will look like:
 
 ```php
-// src/AppBundle/Document/CategoryObject.php
+// src/App/Document/CategoryObject.php
 
-namespace AppBundle\Document;
+namespace App\Document;
 
 use ONGR\ElasticsearchBundle\Annotation as ES;
 
@@ -342,9 +357,9 @@ initiating a document with multiple items you need to initialize property with t
 Here's an example:
 
 ```php
-// src/AppBundle/Document/Product.php
+// src/App/Document/Product.php
 
-namespace AppBundle\Document;
+namespace App\Document;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use ONGR\ElasticsearchBundle\Annotation as ES;
@@ -362,7 +377,7 @@ class Product
     /**
      * @var ContentMetaObject
      *
-     * @ES\Embedded(class="AppBundle:VariantObject", multiple=true)
+     * @ES\Embedded(class="App\Document\VariantObject", multiple=true)
      */
     private $variants;
     
@@ -392,9 +407,9 @@ And the object:
 
 
 ```php
-// src/AppBundle/Document/VariantObject.php
+// src/App/Document/VariantObject.php
 
-namespace AppBundle\Document;
+namespace App\Document;
 
 use ONGR\ElasticsearchBundle\Annotation as ES;
 
