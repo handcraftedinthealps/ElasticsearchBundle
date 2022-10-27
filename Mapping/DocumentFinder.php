@@ -11,8 +11,6 @@
 
 namespace ONGR\ElasticsearchBundle\Mapping;
 
-use function class_exists;
-
 /**
  * Finds documents in bundles.
  */
@@ -36,12 +34,12 @@ class DocumentFinder
      *                             This is to ensure the fake bundle "App" can be used for mappings.
      *                             It is not a perfect solution but the easiest.
      */
-    public function __construct(array $bundles, string $appRootClass = 'App\\Kernel')
+    public function __construct(array $bundles, ?string $appRootClass = null)
     {
         $this->documentDir = 'Document';
         $this->bundles = $bundles;
 
-        if (!empty($appRootClass) && class_exists($appRootClass)) {
+        if ($appRootClass && \class_exists($appRootClass) && !isset($this->bundles['App']) && !isset($this->bundles['AppBundle'])) {
             $this->bundles['App'] = $appRootClass;
         }
     }

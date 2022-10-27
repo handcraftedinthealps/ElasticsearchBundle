@@ -47,7 +47,7 @@ class Configuration implements ConfigurationInterface
                     'If profiler is disabled the tracer service will be disabled as well.'
                 )
             ->end()
-            ->scalarNode('app_root_class')->defaultValue('App\\Kernel')->end()
+            ->scalarNode('app_root_class')->defaultValue(\class_exists('App\\AppBundle') ? null : 'App\\Kernel')->end()
             ->append($this->getAnalysisNode())
             ->append($this->getManagersNode())
             ->end();

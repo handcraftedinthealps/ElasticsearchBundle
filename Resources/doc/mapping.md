@@ -9,11 +9,11 @@ In order for the app's classes to be mapped a fake bundle with the name `App` is
 
 It requires a class in the project's source root folder.
 
-By default, the `App\kernel` class is used. This class can be changed to any other class by using the configuration:
+By default, the `App\Kernel` class is used. This class can be changed to any other class by using the configuration:
 
 ```yaml
 ongr_elasticsearch:
-  app_root_class: 'App\FakeAppRoot'
+  app_root_class: 'App\YourKernel'
 ```
 
 The referenced class has to exist as it is used with various ReflectionClass instances to find their folder etc., but can otherwise be empty. If the class does not exist, no mappings for `App` can be configured.
@@ -272,7 +272,7 @@ class Product
     /**
      * @var ContentMetaObject
      *
-     * @ES\Embedded(class="App\Dcouemnt\CategoryObject")
+     * @ES\Embedded(class="App\Document\CategoryObject")
      */
     private $category;
 
