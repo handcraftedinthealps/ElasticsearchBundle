@@ -30,7 +30,8 @@ class DocumentFinder
      * Constructor.
      *
      * @param array $bundles Parameter kernel.bundles from service container.
-     * @param string $appRootClass A class that has to be in the app's root folder. By default, the app's kernel class is used.
+     * @param string $appRootClass A class that has to be in the app's root folder.
+     *                             By default, the app's kernel class is used.
      *                             This is to ensure the fake bundle "App" can be used for mappings.
      *                             It is not a perfect solution but the easiest.
      */
@@ -39,7 +40,8 @@ class DocumentFinder
         $this->documentDir = 'Document';
         $this->bundles = $bundles;
 
-        if ($appRootClass && \class_exists($appRootClass) && !isset($this->bundles['App']) && !isset($this->bundles['AppBundle'])) {
+        if ($appRootClass && \class_exists($appRootClass) &&
+            !isset($this->bundles['App']) && !isset($this->bundles['AppBundle'])) {
             $this->bundles['App'] = $appRootClass;
         }
     }
