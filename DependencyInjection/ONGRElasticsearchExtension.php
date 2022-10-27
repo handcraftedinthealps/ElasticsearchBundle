@@ -49,6 +49,7 @@ class ONGRElasticsearchExtension extends Extension
         $container->setParameter('es.cache', $config['cache']);
         $container->setParameter('es.analysis', $config['analysis']);
         $container->setParameter('es.managers', $managers);
+        $container->setParameter('es.app_root_class', $config['app_root_class'] ?? null);
         $definition = new Definition(
             'ONGR\ElasticsearchBundle\Service\ManagerFactory',
             [
