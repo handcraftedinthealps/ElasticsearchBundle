@@ -2,6 +2,7 @@ name: Test application
 
 on:
     pull_request:
+    workflow_dispatch:
     push:
         branches:
             - '[0-9]+.[0-9]+'
