@@ -78,7 +78,6 @@ class DocumentParser
     {
         $this->reader = $reader;
         $this->finder = $finder;
-        $this->registerAnnotations();
     }
 
     /**
@@ -387,33 +386,6 @@ class DocumentParser
             $reflectionClass->getName()
         );
         throw new \LogicException($message);
-    }
-
-    /**
-     * Registers annotations to registry so that it could be used by reader.
-     */
-    private function registerAnnotations()
-    {
-        $annotations = [
-            'Document',
-            'Property',
-            'Embedded',
-            'ObjectType',
-            'Nested',
-            'Id',
-            'ParentDocument',
-            'Routing',
-            'Version',
-            'HashMap',
-        ];
-
-        foreach ($annotations as $annotation) {
-            AnnotationRegistry::registerFile(__DIR__ . "/../Annotation/{$annotation}.php");
-        }
-
-        if (version_compare(PHP_VERSION, '7.2.0') < 0) {
-            AnnotationRegistry::registerFile(__DIR__ . "/../Annotation/Object.php");
-        }
     }
 
     /**
