@@ -70,6 +70,30 @@ jobs:
                       elasticsearch-package-constraint: '^7.0'
                       env: {}
 
+                    - php-version: '8.2'
+                      job-name-prefix: 'Allow to fail: '
+                      elasticsearch-version: '7.11.1'
+                      lint: true
+                      symfony-version: '^6.0'
+                      elasticsearch-package-constraint: '^7.0'
+                      env: {}
+
+                    - php-version: '8.3'
+                      job-name-prefix: 'Allow to fail: '
+                      elasticsearch-version: '7.11.1'
+                      lint: true
+                      symfony-version: '^6.0'
+                      elasticsearch-package-constraint: '^7.0'
+                      env: {}
+
+                    - php-version: '8.4'
+                      job-name-prefix: 'Allow to fail: '
+                      elasticsearch-version: '7.11.1'
+                      lint: true
+                      symfony-version: '^6.0'
+                      elasticsearch-package-constraint: '^7.0'
+                      env: {}
+
         services:
             elasticsearch:
                 image: docker.elastic.co/elasticsearch/elasticsearch:${{ matrix.elasticsearch-version }}

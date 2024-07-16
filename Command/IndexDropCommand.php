@@ -26,7 +26,7 @@ class IndexDropCommand extends AbstractManagerAwareCommand
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         parent::configure();
 
@@ -44,7 +44,7 @@ class IndexDropCommand extends AbstractManagerAwareCommand
     /**
      * {@inheritdoc}
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
         if ($input->getOption('force')) {
