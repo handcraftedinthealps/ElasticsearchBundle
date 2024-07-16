@@ -13,6 +13,7 @@ namespace ONGR\ElasticsearchBundle\Test;
 
 use ONGR\ElasticsearchBundle\Service\Manager;
 use ONGR\ElasticsearchBundle\Tests\WebTestCase;
+use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -169,7 +170,7 @@ abstract class AbstractElasticsearchTestCase extends WebTestCase
      *
      * @return ContainerInterface
      */
-    protected static function getContainer(): ContainerInterface
+    protected static function getContainer(): Container
     {
         if (null === self::$container) {
             self::bootKernel();

@@ -14,6 +14,7 @@ namespace ONGR\ElasticsearchBundle\Tests\Functional\Mapping;
 use ONGR\ElasticsearchBundle\Mapping\DocumentFinder;
 use ONGR\ElasticsearchBundle\Tests\WebTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\DependencyInjection\Container;
 
 class DocumentFinderTest extends WebTestCase
 {
@@ -44,7 +45,7 @@ class DocumentFinderTest extends WebTestCase
      *
      * @return ContainerInterface
      */
-    protected static function getContainer(): ContainerInterface
+    protected static function getContainer(): Container
     {
         return static::createClient()->getContainer();
     }
