@@ -15,6 +15,7 @@ use ONGR\ElasticsearchBundle\DependencyInjection\Compiler\MappingPass;
 use ONGR\ElasticsearchBundle\DependencyInjection\Compiler\RepositoryPass;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\Alias;
+use Symfony\Component\DependencyInjection\Definition;
 
 /**
  * Unit tests for MappingPass.
@@ -105,7 +106,7 @@ class MappingPassTest extends TestCase
                 [$this->equalTo('es.manager.default')],
                 [$this->equalTo('es.manager.default.product')]
             )
-            ->willReturn(null);
+            ->willReturn(new Definition());
 
         $containerMock
             ->expects($this->exactly(1))
