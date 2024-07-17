@@ -40,7 +40,7 @@ class IndexImportCommand extends AbstractManagerAwareCommand
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         parent::configure();
 
@@ -70,7 +70,7 @@ class IndexImportCommand extends AbstractManagerAwareCommand
     /**
      * {@inheritdoc}
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
         $manager = $this->getManager($input->getOption('manager'));

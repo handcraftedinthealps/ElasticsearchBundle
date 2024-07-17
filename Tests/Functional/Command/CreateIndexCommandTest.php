@@ -186,7 +186,7 @@ class CreateIndexCommandTest extends AbstractElasticsearchTestCase
     private function getCommandTester()
     {
         $indexCreateCommand = new IndexCreateCommand(
-            $this->getContainer()->get('es.client.index_suffix_finder'),
+            $this->getKernelContainer()->get('es.client.index_suffix_finder'),
             ['es.manager.default' => $this->getManager()]
         );
 

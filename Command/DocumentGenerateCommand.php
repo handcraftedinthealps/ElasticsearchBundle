@@ -78,7 +78,7 @@ class DocumentGenerateCommand extends AbstractManagerAwareCommand
     /**
      * {@inheritdoc}
      */
-    protected function configure()
+    protected function configure(): void
     {
         parent::configure();
 
@@ -90,7 +90,7 @@ class DocumentGenerateCommand extends AbstractManagerAwareCommand
     /**
      * {@inheritdoc}
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         if ($input->hasParameterOption(['--no-interaction', '-n'])) {
             throw $this->getException('No interaction mode is not allowed!');

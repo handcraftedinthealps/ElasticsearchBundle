@@ -70,6 +70,30 @@ jobs:
                       elasticsearch-package-constraint: '^7.0'
                       env: {}
 
+                    - php-version: '8.2'
+                      job-name-prefix: 'Allow to fail: '
+                      elasticsearch-version: '7.11.1'
+                      lint: true
+                      symfony-version: '^7.0'
+                      elasticsearch-package-constraint: '^7.0'
+                      env: {}
+
+                    - php-version: '8.3'
+                      job-name-prefix: 'Allow to fail: '
+                      elasticsearch-version: '7.11.1'
+                      lint: true
+                      symfony-version: '^7.0'
+                      elasticsearch-package-constraint: '^7.0'
+                      env: {}
+
+                    - php-version: '8.4'
+                      job-name-prefix: 'Allow to fail: '
+                      elasticsearch-version: '7.11.1'
+                      lint: true
+                      symfony-version: '^7.0'
+                      elasticsearch-package-constraint: '^7.0'
+                      env: {}
+
         services:
             elasticsearch:
                 image: docker.elastic.co/elasticsearch/elasticsearch:${{ matrix.elasticsearch-version }}
@@ -107,9 +131,12 @@ jobs:
             - name: Install dependencies
               run: |
                   composer validate
-                  composer require --no-update symfony/symfony:${{ matrix.symfony-version }}
+                  composer require --no-update symfony/flex:"^1.0 || ^2.0"
+                  composer config --no-plugins allow-plugins.symfony/flex true
                   composer require --no-update elasticsearch/elasticsearch:${{ matrix.elasticsearch-package-constraint }}
-                  composer install --no-interaction --prefer-dist
+                  composer update --no-interaction --prefer-dist --no-scripts
+              env:
+                  SYMFONY_VERSION: ${{ matrix.symfony-version }}
 
             - name: Fix code style
               if: ${{ matrix.lint }}
