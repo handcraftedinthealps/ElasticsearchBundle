@@ -134,7 +134,7 @@ jobs:
                   composer require --no-update symfony/flex:"^1.0 || ^2.0"
                   composer config --no-plugins allow-plugins.symfony/flex true
                   composer require --no-update elasticsearch/elasticsearch:${{ matrix.elasticsearch-package-constraint }}
-                  composer install --no-interaction --prefer-dist
+                  composer update --no-interaction --prefer-dist --no-scripts
               env:
                   SYMFONY_VERSION: ${{ matrix.symfony-version }}
 

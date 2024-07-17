@@ -13,7 +13,6 @@ namespace ONGR\ElasticsearchBundle\Test;
 
 use ONGR\ElasticsearchBundle\Service\Manager;
 use ONGR\ElasticsearchBundle\Tests\WebTestCase;
-use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -170,7 +169,7 @@ abstract class AbstractElasticsearchTestCase extends WebTestCase
      *
      * @return ContainerInterface
      */
-    protected static function getContainer(): Container
+    protected static function getKernelContainer(): ContainerInterface
     {
         if (null === self::$container) {
             self::bootKernel();
@@ -198,9 +197,9 @@ abstract class AbstractElasticsearchTestCase extends WebTestCase
             $this->ignoreVersions($this->managers[$name]);
 
             return $this->managers[$name];
-        } elseif ($this->getContainer()->has($serviceName)) {
+        } elseif ($this->getKernelContainer()->has($serviceName)) {
             /** @var Manager $manager */
-            $manager = $this->getContainer()->get($serviceName);
+            $manager = $this->getKernelContainer()->get($serviceName);
             $this->managers[$name] = $manager;
         } else {
             throw new \LogicException(sprintf("Manager '%s' does not exist", $name));

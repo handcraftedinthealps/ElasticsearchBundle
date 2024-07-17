@@ -23,7 +23,7 @@ class DocumentFinderTest extends WebTestCase
      */
     public function testGetBundleDocumentClasses()
     {
-        $finder = new DocumentFinder($this->getContainer()->getParameter('kernel.bundles'));
+        $finder = new DocumentFinder($this->getClientContainer()->getParameter('kernel.bundles'));
         $this->assertGreaterThan(0, count($finder->getBundleDocumentClasses('TestBundle')));
         $this->assertEquals(0, count($finder->getBundleDocumentClasses('FrameworkBundle')));
     }
@@ -36,7 +36,7 @@ class DocumentFinderTest extends WebTestCase
         $this->expectException(\LogicException::class);
         $this->expectExceptionMessage('Bundle \'NotExistingBundle\' does not exist.');
 
-        $finder = new DocumentFinder($this->getContainer()->getParameter('kernel.bundles'));
+        $finder = new DocumentFinder($this->getClientContainer()->getParameter('kernel.bundles'));
         $finder->getBundleClass('NotExistingBundle');
     }
 
@@ -45,7 +45,7 @@ class DocumentFinderTest extends WebTestCase
      *
      * @return ContainerInterface
      */
-    protected static function getContainer(): Container
+    protected static function getClientContainer(): ContainerInterface
     {
         return static::createClient()->getContainer();
     }

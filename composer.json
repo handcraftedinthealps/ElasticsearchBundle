@@ -53,5 +53,12 @@
     "replace": {
         "ongr/elasticsearch-bundle": "self.version"
     },
-    "minimum-stability": "dev"
+    "minimum-stability": "dev",
+    "extra": {
+        "symfony": {
+            "recipe-contrib": false,
+            "allow-contrib": false,
+            "require": "7.1.*"
+        }
+    }
 }
