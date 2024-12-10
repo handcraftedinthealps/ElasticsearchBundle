@@ -29,19 +29,19 @@ class RepositoryPass implements CompilerPassInterface
     {
         $managers = $container->getParameter('es.managers');
 
-        $hasContainerBuildId = $container->hasParameter('container.build_id');
-        if (!$hasContainerBuildId) {
+        $removeContainerBuildId = false;
+        if (!$container->hasParameter('container.build_id')) {
             // the 'container.build_id' is required for `es.cache_engine` system cache which normally can not
             // be constructor inside a compiler pass. This is a workaround to make it work.
             // see also:
             //     - https://github.com/symfony/symfony/blob/52a92926f7fed15cdff399c6921100a10e0d6f61/src/Symfony/Component/DependencyInjection/Dumper/PhpDumper.php#L389
             //     - https://github.com/symfony/symfony/blob/52a92926f7fed15cdff399c6921100a10e0d6f61/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/FrameworkExtension.php#L2322
-            $hasContainerBuildId = true;
             $container->setParameter('container.build_id', hash('crc32', 'Abc123' . time()));
+            $removeContainerBuildId = true;
         }
 
         $collector = $container->get('es.metadata_collector');
-        if (!$hasContainerBuildId) {
+        if ($removeContainerBuildId) {
             $container->getParameterBag()->remove('container.build_id');
         }
 
