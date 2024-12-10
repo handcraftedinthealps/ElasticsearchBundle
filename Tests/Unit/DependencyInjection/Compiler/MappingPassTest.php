@@ -16,6 +16,7 @@ use ONGR\ElasticsearchBundle\DependencyInjection\Compiler\RepositoryPass;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\Alias;
 use Symfony\Component\DependencyInjection\Definition;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
 
 /**
  * Unit tests for MappingPass.
@@ -84,6 +85,9 @@ class MappingPassTest extends TestCase
                     }
                 )
             );
+
+        $containerMock->expects($this->exactly(1))->method('getParameterBag')
+            ->willReturn(new ParameterBag());
 
         $containerMock->expects($this->once())->method('get')->with($this->anything())
             ->will(
