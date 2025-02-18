@@ -14,6 +14,7 @@ namespace ONGR\ElasticsearchBundle\Mapping;
 use Doctrine\Common\Cache\CacheProvider;
 use ONGR\ElasticsearchBundle\Exception\DocumentParserException;
 use ONGR\ElasticsearchBundle\Exception\MissingDocumentAnnotationException;
+use Psr\Cache\CacheItemPoolInterface;
 
 /**
  * DocumentParser wrapper for getting bundle documents mapping.
@@ -31,7 +32,7 @@ class MetadataCollector
     private $parser;
 
     /**
-     * @var CacheProvider
+     * @var CacheProvider|CacheItemPoolInterface
      */
     private $cache = null;
 
@@ -43,7 +44,7 @@ class MetadataCollector
     /**
      * @param DocumentFinder $finder For finding documents.
      * @param DocumentParser $parser For reading document annotations.
-     * @param CacheProvider  $cache  Cache provider to store the meta data for later use.
+     * @param CacheProvider|CacheItemPoolInterface  $cache  Cache provider to store the meta data for later use.
      */
     public function __construct($finder, $parser, $cache = null)
     {
@@ -110,7 +111,7 @@ class MetadataCollector
 
         $cacheName =  'ongr.metadata.mapping.' . md5($name.serialize($config));
 
-        $this->enableCache && $mappings = $this->cache->fetch($cacheName);
+        $this->enableCache && $mappings = $this->cacheFetch($cacheName);
 
         if (isset($mappings) && false !== $mappings) {
             return $mappings;
@@ -166,7 +167,7 @@ class MetadataCollector
             }
         }
 
-        $this->enableCache && $this->cache->save($cacheName, $mappings);
+        $this->enableCache && $this->cacheSave($cacheName, $mappings);
 
         return $mappings;
     }
@@ -240,7 +241,7 @@ class MetadataCollector
     public function getClientAnalysis(array $bundles, $analysisConfig = [])
     {
         $cacheName = 'ongr.metadata.analysis.'.md5(serialize($bundles));
-        $this->enableCache && $typesAnalysis = $this->cache->fetch($cacheName);
+        $this->enableCache && $typesAnalysis = $this->cacheFetch($cacheName);
 
         if (isset($typesAnalysis) && false !== $typesAnalysis) {
             return $typesAnalysis;
@@ -288,7 +289,7 @@ class MetadataCollector
             $typesAnalysis['normalizer'] = $analysisConfig['normalizer'];
         }
 
-        $this->enableCache && $this->cache->save($cacheName, $typesAnalysis);
+        $this->enableCache && $this->cacheSave($cacheName, $typesAnalysis);
 
         return $typesAnalysis;
     }
@@ -347,7 +348,7 @@ class MetadataCollector
         $cacheName = 'ongr.metadata.document.'.md5($namespace);
 
         $namespace = $this->getClassName($namespace);
-        $this->enableCache && $mapping = $this->cache->fetch($cacheName);
+        $this->enableCache && $mapping = $this->cacheFetch($cacheName);
 
         if (isset($mapping) && false !== $mapping) {
             return $mapping;
@@ -355,7 +356,7 @@ class MetadataCollector
 
         $mapping = $this->getDocumentReflectionMapping(new \ReflectionClass($namespace));
 
-        $this->enableCache && $this->cache->save($cacheName, $mapping);
+        $this->enableCache && $this->cacheSave($cacheName, $mapping);
 
         return $mapping;
     }
@@ -371,5 +372,40 @@ class MetadataCollector
     public function getClassName($className, $directory = null)
     {
         return $this->finder->getNamespace($className, $directory);
+    }
+
+    /**
+     * @param $cacheKey
+     *
+     * @return false|mixed
+     */
+    private function cacheFetch($cacheKey)
+    {
+        if ($this->cache instanceof CacheProvider) {
+            return $this->cache->fetch($cacheKey);
+        } elseif ($this->cache instanceof CacheItemPoolInterface) {
+            return $this->cache->getItem($cacheKey)->get();
+        }
+
+        throw new \RuntimeException('Unexpected cache instance: ' . $this->cache ? get_class($this->cache) : 'null');
+    }
+
+    /**
+     * @param string $cacheKey
+     * @param mixed $data
+     */
+    private function cacheSave($cacheKey, $data): void
+    {
+        if ($this->cache instanceof CacheProvider) {
+            $this->cache->save($cacheKey, $data);
+
+            return;
+        } elseif ($this->cache instanceof CacheItemPoolInterface) {
+            $this->cache->getItem($cacheKey)->set($data);
+
+            return;
+        }
+
+        throw new \RuntimeException('Unexpected cache instance: ' . ($this->cache ? \get_class($this->cache) : 'null'));
     }
 }
